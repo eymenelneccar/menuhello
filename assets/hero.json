@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "autoplay": false,
+  "intervalMs": 5000,
+  "images": [],
+  "textEnabled": false,
+  "textContent": "",
+  "buttons": [
+    {
+      "enabled": true,
+      "iconUrl": "info.png",
+      "href": ""
+    },
+    {
+      "enabled": true,
+      "iconUrl": "instagram.png",
+      "href": ""
+    }
+  ]
+}

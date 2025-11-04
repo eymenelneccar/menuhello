@@ -1,0 +1,214 @@
+/* Custom styles for mobile-first scrolling and aesthetics */
+body {
+    /* Changed background to white */
+    background-color: #FFFFFF; 
+    /* Changed font-family to Cairo for Arabic text */
+    font-family: 'Cairo', sans-serif; 
+    color: #1F2937; /* Dark text for readability on white background */
+}
+/* Style for the fixed bottom bar */
+.nav-bar {
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.7);
+}
+.category-card, .menu-item-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.category-card:hover, .menu-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+/* Style for the hero image and logo container */
+.hero-container {
+    height: 250px; /* Fixed height for visual impact */
+    position: relative;
+    overflow: hidden;
+    background-color: #1E293B; /* Background for hero area */
+}
+.hero-image {
+    object-fit: cover;
+    object-position: center;
+    /* Increased brightness from 0.6 to 0.7 since the dark logo circle is gone */
+    filter: brightness(0.7); 
+}
+/* [تم حذف أنماط .logo-circle] */
+
+/* Style for the large circular menu button in the nav bar */
+.menu-button-circle {
+    width: 70px;
+    height: 70px;
+    /* تقليل بروز الدائرة حتى لا تلامس المحتوى أعلى الناف */
+    top: -2px; /* أقل بروزاً لإظهار هامش بصري فوقها */ 
+    border-radius: 50%;
+    background-color: #ffffff; /* White circle as requested */
+    border: 2px solid #b81e0e; /* Subtle red border to match theme */
+    box-shadow: 0 -4px 15px rgba(184, 30, 14, 0.35); /* Red-tinted shadow */
+    transition: none;
+}
+.menu-button-circle:hover {}
+/* Ensure the fork-knife icon is visible on white background */
+.menu-button-circle i {
+    color: #b81e0e;
+}
+/* Added style for the dimming backdrop */
+.backdrop {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Keyframes for the slide-up animation (used for menu items) */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Keyframes for the slide-down animation (used for hero text) */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Keyframes for simple fade in */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Apply animation to menu items when they appear */
+.animated-item {
+    animation: slideInUp 0.5s ease-out both;
+}
+/* Override default text color for main title and back button on white background */
+#main-title {
+    color: #1F2937; /* Dark gray text */
+}
+#back-button {
+    color: #3B82F6; /* Blue color */
+}
+
+/* Hero Animation Classes */
+.hero-title {
+    animation: slideInDown 0.6s ease-out both;
+    animation-delay: 0.2s;
+}
+.hero-subtitle {
+    animation: slideInDown 0.6s ease-out both;
+    animation-delay: 0.4s;
+}
+.hero-image-animated {
+     animation: fadeIn 1s ease-out both;
+}
+
+/* Modal Styles */
+.modal {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none; /* لا تستقبل نقرات وهي مغلقة */
+}
+.modal.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto; /* فعّالة عند الفتح */
+}
+
+/* Fancy pop animation for About modal content */
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+#about-modal.open .relative {
+    animation: popIn 0.35s ease-out both;
+}
+
+/* Lift the About modal above bottom nav bar */
+#about-modal {
+    bottom: 90px; /* raise above fixed bottom nav */
+    z-index: 50; /* ensure above nav bar */
+}
+
+/* Cart drawer slides from right */
+.cart-drawer {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    pointer-events: none; /* يمنع حجب الأزرار وهو مغلق */
+    overflow-y: auto; /* فعل السمرول داخل الدرج نفسه */
+}
+.cart-drawer.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto; /* فعّال عند الفتح */
+}
+
+/* خلفية السلة بيضاء ونص داكن لقراءة أفضل */
+#cart-drawer {
+    background-color: #ffffff;
+    color: #1F2937; /* نص داكن */
+}
+#cart-drawer .p-4 {
+    border-color: #e2e8f0; /* slate-200 */
+}
+#cart-drawer input,
+#cart-drawer textarea {
+    background-color: #ffffff;
+    color: #1F2937;
+    border: 1px solid rgba(0,0,0,0.15);
+}
+
+/* Scroll-triggered effects */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+.scroll-animate.in-view {
+    opacity: 1;
+    transform: none;
+}
+
+/* Hero transparent action buttons */
+.hero-actions { /* container exists in HTML as #hero-actions */ }
+.hero-action-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 9999px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.55);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+    transition: background-color 0.2s, transform 0.2s;
+}
+.hero-action-btn:hover { background-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+.hero-action-btn img {
+    width: 22px; height: 22px; object-fit: contain;
+    filter: brightness(0) invert(1); /* force white */
+    opacity: 0.95;
+}
+
+/* Bottom nav cart icon: smaller and white */
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+/* Add-to-cart icon: ensure white */
+.add-icon {
+    filter: brightness(0) invert(1);
+}

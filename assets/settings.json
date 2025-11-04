@@ -1,0 +1,21 @@
+{
+  "whatsappNumber": "905058297665",
+  "contactNumber": "",
+  "locationName": "",
+  "mapLink": "https://maps.app.goo.gl/obPCFmiVzMBUzJRR6",
+  "ordersEnabled": false,
+  "theme": {
+    "textColor": "#1f2937",
+    "bgColor": "#ffffff",
+    "dividerColor": "#b81e0e",
+    "backButtonColor": "#b81e0e",
+    "navBgColor": "#b81e0e",
+    "textAdBgColor": "#ffffff",
+    "itemNameColor": "#200404",
+    "categoryTitleColor": "#ffffff",
+    "itemCardBgColor": "#ffffff",
+    "itemDescriptionColor": "#6b7280",
+    "itemPriceColor": "#333333",
+    "addToCartBgColor": "#b81e0e"
+  }
+}

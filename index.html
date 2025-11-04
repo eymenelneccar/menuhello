@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القائمة الرقمية للمطعم</title>
+    
+    <!-- Import Cairo Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Phosphor Icons for a clean look --><script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pb-24">
+    <!-- Dimming Backdrop -->
+    <!-- Added event listener to close modal on backdrop click -->
+    <div id="backdrop" class="backdrop fixed inset-0 bg-black/70 z-30 hidden" onclick="hideBackdrop(); closeItemModal(); closeCart(); closeAboutModal();"></div>
+
+    <!-- Main Content Wrapper --><div id="app" class="max-w-xl mx-auto min-h-screen relative z-10">
+
+        <!-- Hero Image Section with Central Logo -->
+        <section id="hero" class="w-full mb-6 hero-container rounded-b-xl shadow-2xl relative">
+            <!-- نص أعلى الهيرو -->
+            <div id="hero-text" class="absolute top-2 left-2 right-2 px-4 py-2 text-sm font-bold text-white bg-black/40 rounded z-10 hidden"></div>
+            <img 
+                src="https://placehold.co/800x250/1E293B/E2E8F0?text=Restaurant+Ambience" 
+                alt="صورة خلفية لأصناف طعام لذيذة" 
+                class="hero-image w-full h-full hero-image-animated scroll-animate"
+                onerror="this.onerror=null;this.src='https://placehold.co/800x250/1E293B/E2E8F0?text=Restaurant+Ambience';"
+            >
+            <!-- أزرار الهيرو (شفافة) -->
+            <div id="hero-actions" class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-3 z-10"></div>
+            
+        </section>
+
+        <!-- إعلان نصي أنيق تحت الهيرو -->
+        <section id="text-ad" class="w-full mb-4 px-4 hidden scroll-animate">
+            <div class="rounded-xl p-4 bg-gradient-to-l from-blue-900 to-slate-800 text-white shadow-xl border border-blue-700">
+                <div class="flex items-center gap-3">
+                    <i class="ph ph-megaphone-simple text-2xl opacity-80"></i>
+                    <p id="text-ad-content" class="text-sm leading-7"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Header -->
+        <header class="p-4 pt-0 mb-4 flex items-center justify-between">
+            <!-- العنوان (Title) - الآن في اليمين -->
+            <h1 id="main-title" class="text-4xl font-extrabold text-right border-b-4 border-blue-600 pb-2 inline-block flex-grow mr-4">الفئات</h1>
+
+            <!-- زر الرجوع (Back Button) - الآن في اليسار -->
+            <button id="back-button" class="text-3xl hover:text-blue-300 transition-colors hidden" onclick="showCategories()">
+                <!-- تم تغيير الأيقونة إلى السهم الأيسر (ph-arrow-left) -->
+                <i class="ph ph-arrow-left"></i>
+            </button>
+        </header>
+
+        <!-- Loading Indicator --><div id="loading" class="text-center p-8 hidden">
+            <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-2 text-gray-700">جاري التحميل...</p>
+        </div>
+        
+        <!-- Status/Error Message Box --><div id="message-box" class="fixed top-4 left-1/2 -translate-x-1/2 p-3 px-6 rounded-full text-sm font-medium z-50 transition-all duration-300 opacity-0 transform translate-y-[-50px]" style="min-width: 250px;"></div>
+
+        <!-- Categories List: Grid Layout for "Puzzle" effect -->
+        <section id="categories-list" class="grid grid-cols-2 gap-4 px-4">
+            <!-- Categories will be injected here --></section>
+
+        <!-- Menu Items List (for a specific category) -->
+        <section id="menu-items-for-category" class="grid grid-cols-1 gap-4 px-4 hidden scroll-animate">
+            <!-- Menu items for selected category will be injected here -->
+        </section>
+
+    </div>
+
+    <!-- Item Details Modal (Opens when clicking an item) -->
+    <div id="item-modal" class="modal fixed bottom-0 left-0 right-0 w-full max-w-xl mx-auto bg-white rounded-t-3xl shadow-2xl z-40 p-5">
+        <div class="relative">
+            <!-- Close Button -->
+            <button class="absolute top-0 left-0 text-gray-500 hover:text-gray-900 transition-colors" onclick="closeItemModal()">
+                <i class="ph ph-x-circle text-3xl"></i>
+            </button>
+
+            <!-- Modal Content (Filled by JS) -->
+            <!-- تم إضافة هامش سفلي كبير (pb-32) هنا لضمان عدم إخفاء المحتوى خلف شريط التنقل السفلي -->
+            <div id="modal-content" class="pb-32">
+                <!-- Image -->
+                <img id="modal-item-image" src="" alt="صورة الصنف" class="w-full h-48 object-cover rounded-xl mb-4 border border-gray-200" onerror="this.onerror=null;this.src='https://placehold.co/600x400/334155/ffffff?text=Image+Error';">
+                
+                <h2 id="modal-item-name" class="text-3xl font-extrabold text-gray-900 mb-2 text-right"></h2>
+                <p id="modal-item-description" class="text-gray-600 mb-6 text-right"></p>
+                
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span id="modal-item-price" class="text-3xl font-black text-blue-600"></span>
+                    <button 
+                        id="modal-add-to-cart"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center transition duration-200 shadow-md"
+                        title="إضافة إلى السلة"
+                    >
+                        <img src="add.png" alt="إضافة" class="add-icon" onerror="this.onerror=null;this.src='https://placehold.co/20x20/ffffff/000?text=+';">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Modal (opens from hero button 1) -->
+    <div id="about-modal" class="modal fixed bottom-0 left-0 right-0 w-full max-w-xl mx-auto bg-white rounded-t-3xl shadow-2xl z-50 p-6">
+        <div class="relative">
+            <!-- Close Button -->
+            <button class="absolute top-0 left-0 text-gray-500 hover:text-gray-900 transition-colors" onclick="closeAboutModal()" title="إغلاق">
+                <i class="ph ph-x-circle text-3xl"></i>
+            </button>
+
+            <!-- Decorative header -->
+            <div class="mb-4">
+                <div class="h-2 w-20 rounded-full bg-gradient-to-l from-red-600 to-blue-600"></div>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-2 text-right">من نحن</h2>
+            <!-- Subheading / default text -->
+            <p class="text-gray-700 leading-8 mb-4 text-right" id="about-modal-text">
+                نحن مطعم يقدم تجربة طعام مميزة تجمع بين الجودة والطعم الأصيل. نحرص على اختيار أفضل المكونات الطازجة وتقديمها بأسلوب عصري يرضي جميع الأذواق. هدفنا هو إسعادكم بكل وجبة.
+            </p>
+
+            <!-- Highlights -->
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="p-3 rounded-xl bg-gradient-to-l from-slate-900 to-blue-900 text-white shadow-lg">
+                    <div class="flex items-center gap-2">
+                        <i class="ph ph-seal-check text-xl"></i>
+                        <span class="text-sm">جودة مضمونة</span>
+                    </div>
+                </div>
+                <div class="p-3 rounded-xl bg-gradient-to-l from-red-800 to-pink-700 text-white shadow-lg">
+                    <div class="flex items-center gap-2">
+                        <i class="ph ph-fire-simple text-xl"></i>
+                        <span class="text-sm">نكهات فريدة</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative footer bar -->
+            <div class="mt-2 h-1 w-full rounded-full bg-gradient-to-l from-blue-600 to-red-600"></div>
+            <!-- Spacer to create margin above the center circle -->
+            <div class="h-6"></div>
+        </div>
+    </div>
+
+    <!-- Fixed Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 right-0 left-0 w-full nav-bar bg-slate-900 border-t border-blue-900 shadow-2xl z-40">
+        <div class="max-w-xl mx-auto flex justify-around p-3 text-sm relative">
+            
+            <!-- 2. السلة (Cart) -->
+            <button id="cart-button" class="flex flex-col items-center text-white hover:text-blue-500 transition duration-150 relative w-1/3" onclick="openCart()">
+                <div class="relative inline-block">
+                    <img src="shopping-cart.png" alt="السلة" class="nav-icon" onerror="this.onerror=null;this.src='https://placehold.co/24x24/334155/ffffff?text=SC';">
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-red-600 text-xs rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity">0</span>
+                </div>
+                <span class="text-white">السلة</span>
+            </button>
+
+            <!-- 3. المنيو (Menu) - Large Circular Active Button (CENTERED) -->
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 menu-button-circle flex items-center justify-center shadow-lg">
+                <button id="hero-scroll-button" class="flex flex-col items-center text-white p-2" onclick="scrollToHero()" title="الانتقال إلى الهيرو">
+                    <i class="ph ph-fork-knife text-3xl"></i>
+                </button>
+    </div>
+
+    <!-- Cart Drawer (slides from right) -->
+    <aside id="cart-drawer" class="fixed top-0 bottom-0 right-0 w-[360px] max-w-[90%] bg-white text-slate-900 shadow-2xl z-50 cart-drawer">
+        <!-- Header -->
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-black">اطلع على سلتك</h3>
+                <p class="text-sm text-slate-500" id="cart-location-caption">الطلب من <span id="cart-location-name">فرعك</span></p>
+            </div>
+            <button id="cart-close-button" class="text-slate-500 hover:text-slate-900" title="إغلاق">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="p-4 space-y-4">
+            <!-- Empty State -->
+            <div id="cart-empty" class="text-center py-6">
+                <i class="ph ph-shopping-cart text-5xl text-red-600"></i>
+                <p class="mt-3 font-bold">عربتك فارغة حالياً.</p>
+                <p class="text-sm text-slate-500">أضف بعض الأطباق الشهية.</p>
+            </div>
+            <!-- Items -->
+            <div id="cart-items" class="space-y-3"></div>
+
+            <!-- Customer note -->
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">ملاحظة الزبون</label>
+                <textarea id="order-note" class="w-full border rounded-lg px-3 py-2 text-slate-700" placeholder="اكتب أي ملاحظة الطلب هنا..." rows="2"></textarea>
+            </div>
+
+            <!-- Name and Phone -->
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">الرقم</label>
+                    <input id="order-phone" type="tel" class="w-full border rounded-lg px-3 py-2" placeholder="اكتب رقم هاتفك">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">الاسم</label>
+                    <input id="order-name" type="text" class="w-full border rounded-lg px-3 py-2" placeholder="اكتب اسمك">
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">العنوان</label>
+                <input id="order-address" type="text" class="w-full border rounded-lg px-3 py-2" placeholder="اكتب عنوانك بالتفصيل">
+                <p class="text-xs text-slate-400 mt-1">مثال: الشارع/البيت/المنطقة، قرب نقطة دالة</p>
+            </div>
+        </div>
+
+        <!-- Footer actions -->
+        <div class="p-4 border-t border-slate-200">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-lg font-bold">الإجمالي:</span>
+                <span id="order-total" class="text-lg font-black">0 د.ع</span>
+            </div>
+            <button id="order-submit-button" class="w-full px-3 py-3 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center gap-2">
+                <i class="ph ph-whatsapp-logo text-2xl"></i>
+                <span>إرسال الطلب</span>
+            </button>
+            <div class="text-center text-slate-500 my-2">or</div>
+            <a id="order-call-button" href="#" class="w-full px-3 py-3 rounded-lg bg-slate-200 text-slate-800 font-bold flex items-center justify-center gap-2">
+                <i class="ph ph-phone-call text-2xl"></i>
+                <span>اطلب عبر اتصال</span>
+            </a>
+            <!-- زر تفريغ السلة تمت إزالته بناءً على طلب المستخدم -->
+        </div>
+    </aside>
+            
+            <!-- Filler/Spacer for the circle -->
+            <div class="w-1/3"></div>
+
+            <!-- 5. الموقع (Location) -->
+            <a id="nav-location-button" href="#" class="flex flex-col items-center text-white hover:text-blue-500 transition duration-150 w-1/3">
+                <img src="marker.png" alt="الموقع" class="nav-icon" />
+                <span class="text-white">الموقع</span>
+            </a>
+        </div>
+        <!-- Brand thin strip under nav -->
+        <div class="bg-white text-center text-xs py-1 select-none">
+            تم صنعها بواسطة |
+            <a href="https://iqrmenu.com/" target="_blank" rel="noopener" class="font-bold text-red-600">İQR MENU</a>
+        </div>
+    </nav>
+
+    <!-- Fallback for cart open/close in case app.js fails to load earlier -->
+    <script>
+      window.openCart = window.openCart || function() {
+        try {
+          var d = document.getElementById('cart-drawer');
+          var b = document.getElementById('backdrop');
+          if (d) d.classList.add('open');
+          if (b) b.classList.remove('hidden');
+        } catch (e) { console.warn('openCart fallback error', e); }
+      };
+      window.closeCart = window.closeCart || function() {
+        try {
+          var d = document.getElementById('cart-drawer');
+          var b = document.getElementById('backdrop');
+          if (d) d.classList.remove('open');
+          if (b) b.classList.add('hidden');
+        } catch (e) { console.warn('closeCart fallback error', e); }
+      };
+      // زر الوسط (الدائري) يبقى ثابتًا ويأخذك إلى الهيرو
+      window.scrollToHero = window.scrollToHero || function() {
+        try {
+          var hero = document.getElementById('hero') || document.querySelector('.hero-container');
+          if (!hero) return;
+          hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch (e) { console.warn('scrollToHero error', e); }
+      };
+      // فتح/إغلاق مودال "من نحن" كاحتياط إذا لم يُحمّل app.js
+      window.openAboutModal = window.openAboutModal || function() {
+        try {
+          var m = document.getElementById('about-modal');
+          var b = document.getElementById('backdrop');
+          if (m) m.classList.add('open');
+          if (b) b.classList.remove('hidden');
+        } catch (e) { console.warn('openAboutModal fallback error', e); }
+      };
+      window.closeAboutModal = window.closeAboutModal || function() {
+        try {
+          var m = document.getElementById('about-modal');
+          var b = document.getElementById('backdrop');
+          if (m) m.classList.remove('open');
+          if (b) b.classList.add('hidden');
+        } catch (e) { console.warn('closeAboutModal fallback error', e); }
+      };
+    </script>
+    <!-- Main Application Logic (Vanilla JS) --><script src="app.js?v=2"></script>
+</body>
+</html>
