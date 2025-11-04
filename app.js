@@ -695,7 +695,7 @@ let siteSettings = {
     itemCardBgColor: '#374151',
     itemDescriptionColor: '#D1D5DB',
     itemPriceColor: '#93C5FD',
-    addToCartBgColor: '#2563EB'
+    addToCartBgColor: '#b81e0e'
   }
 };
 
