@@ -26,13 +26,13 @@ async function loadAssets() {
 
 // Manually assign a representative image and a background color for menu item cards for variety
 const categoryImages = {
-    "اللحوم": "https://placehold.co/600x400/10B981/ffffff?text=Meats",
-    "الدجاج": "https://placehold.co/600x400/F59E0B/ffffff?text=Chicken",
-    "الوجبات السريعة": "https://placehold.co/600x400/EF4444/ffffff?text=Fast+Food",
-    "المعجنات": "https://placehold.co/600x400/3B82F6/ffffff?text=Pasta",
-    "المقبلات": "https://placehold.co/600x400/6366F1/ffffff?text=Appetizers",
-    "المشروبات": "https://placehold.co/600x400/EC4899/ffffff?text=Juice",
-    "الحلويات": "https://placehold.co/600x400/F472B6/ffffff?text=Dessert",
+    "اللحوم": "https://placehold.co/600x400/10B981/ffffff?text=%20&v=2",
+    "الدجاج": "https://placehold.co/600x400/F59E0B/ffffff?text=%20&v=2",
+    "الوجبات السريعة": "https://placehold.co/600x400/EF4444/ffffff?text=%20&v=2",
+    "المعجنات": "https://placehold.co/600x400/3B82F6/ffffff?text=%20&v=2",
+    "المقبلات": "https://placehold.co/600x400/6366F1/ffffff?text=%20&v=2",
+    "المشروبات": "https://placehold.co/600x400/EC4899/ffffff?text=%20&v=2",
+    "الحلويات": "https://placehold.co/600x400/F472B6/ffffff?text=%20&v=2",
 };
 
 // Background colors for the actual menu item cards
@@ -140,12 +140,58 @@ window.openItemModal = (itemId) => {
     if (modalDesc) modalDesc.style.color = siteSettings?.theme?.itemDescriptionColor || '#D1D5DB';
     if (modalPrice) modalPrice.style.color = siteSettings?.theme?.itemPriceColor || '#93C5FD';
 
-    // Setup Add-to-Cart button
+    // Variants in modal: show vertical rows with black titles, aligned price/add
     const addBtn = document.getElementById('modal-add-to-cart');
-    if (addBtn) {
-        addBtn.dataset.itemId = item.id;
-        addBtn.style.backgroundColor = siteSettings?.theme?.addToCartBgColor || '#2563EB';
-        addBtn.onclick = (e) => { e.stopPropagation(); addItemToCart(item.id); };
+    const priceRowEl = document.getElementById('modal-item-price')?.parentElement;
+    const modalContent = document.getElementById('modal-content');
+    const variants = Array.isArray(item.variants) ? item.variants.filter(v => v && v.name) : [];
+    const hasVariants = variants.length > 0;
+    let modalVariants = document.getElementById('modal-variants');
+    if (!modalVariants) {
+        modalVariants = document.createElement('div');
+        modalVariants.id = 'modal-variants';
+        modalContent && modalContent.appendChild(modalVariants);
+    }
+
+    if (hasVariants) {
+        // Hide base price/add row
+        if (priceRowEl) priceRowEl.style.display = 'none';
+        if (addBtn) addBtn.style.display = 'none';
+        // Render variant list
+        modalVariants.innerHTML = `
+          <div class="mt-4 space-y-2">
+            ${variants.map(v => {
+              const vp = typeof v.price === 'number' ? v.price : Number(v.price || 0);
+              const vName = String(v.name).replace(/\"/g, '&quot;').replace(/'/g, "\\'");
+              return `
+                <div class="flex items-center justify-between bg-white rounded-lg p-2">
+                  <span class="font-extrabold text-black">${vName}</span>
+                  <div class="flex items-center gap-3">
+                    <span class="text-blue-600 font-bold">${Number(vp).toLocaleString('en-US')} د.ع</span>
+                    <button 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center transition duration-200 shadow-md"
+                      onclick="addVariantToCart(${item.id}, '${vName}', ${Number(vp)}, this);"
+                      title="إضافة ${vName}"
+                      style="background-color: ${siteSettings?.theme?.addToCartBgColor || '#2563EB'}"
+                    >
+                      <i class="ph ph-plus text-white text-base font-black"></i>
+                    </button>
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>
+        `;
+    } else {
+        // Show base price/add and clear variants container
+        if (priceRowEl) priceRowEl.style.display = '';
+        if (addBtn) {
+            addBtn.style.display = '';
+            addBtn.dataset.itemId = item.id;
+            addBtn.style.backgroundColor = siteSettings?.theme?.addToCartBgColor || '#2563EB';
+            addBtn.onclick = (e) => { e.stopPropagation(); addItemToCart(item.id); };
+            addBtn.innerHTML = '<i class="ph ph-plus text-white text-2xl font-black"></i>';
+        }
+        if (modalVariants) modalVariants.innerHTML = '';
     }
 
     // Show modal and backdrop
@@ -188,14 +234,14 @@ function renderCart() {
     row.innerHTML = `
       <!-- Controls on the left, smaller size -->
       <div class="flex items-center gap-1">
-        <button data-action="remove-all" data-item-id="${it.id}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="حذف">
+        <button data-action="remove-all" data-item-id="${it.id}" data-variant-name="${it.variantName || ''}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="حذف">
           <i class="ph ph-trash text-base"></i>
         </button>
-        <button data-action="inc" data-item-id="${it.id}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="زيادة">
+        <button data-action="inc" data-item-id="${it.id}" data-variant-name="${it.variantName || ''}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="زيادة">
           <span class="text-sm leading-none">+</span>
         </button>
         <span class="text-sm font-bold text-slate-900">${it.qty}</span>
-        <button data-action="dec" data-item-id="${it.id}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="تقليل">
+        <button data-action="dec" data-item-id="${it.id}" data-variant-name="${it.variantName || ''}" class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center" title="تقليل">
           <span class="text-sm leading-none">−</span>
         </button>
       </div>
@@ -204,6 +250,7 @@ function renderCart() {
         <img src="${it.imageUrl || 'https://placehold.co/48x48/cccccc/333?text=IMG'}" alt="${it.name || ''}" class="w-12 h-12 object-cover rounded-xl border" onerror="this.onerror=null;this.src='https://placehold.co/48x48/cccccc/333?text=IMG';">
         <div class="text-right">
           <div class="text-sm font-bold">${it.name || ''}</div>
+          ${it.variantName ? `<div class="text-xs text-slate-600">الحجم: ${it.variantName}</div>` : ''}
           <div class="text-xs text-slate-500">${Number(unit).toLocaleString('en-US')} د.ع للوحدة</div>
         </div>
       </div>
@@ -212,7 +259,7 @@ function renderCart() {
   });
 
   // تحديث الإجمالي
-  const total = cartItems.reduce((sum, it) => sum + (typeof it.price === 'number' ? it.price : Number(it.price||0)), 0);
+  const total = cartItems.reduce((sum, it) => sum + (typeof it.price === 'number' ? it.price : (typeof it.variantPrice === 'number' ? it.variantPrice : Number(it.price||0))), 0);
   if (orderTotalEl) orderTotalEl.textContent = `${Number(total).toLocaleString('en-US')} د.ع`;
 }
 
@@ -262,16 +309,35 @@ if (cartItemsContainer) {
     if (!btn) return;
     const action = btn.dataset.action;
     const itemId = btn.dataset.itemId;
+    const variantName = btn.dataset.variant_name || btn.dataset.variantName || '';
     if (action === 'remove') {
       const localId = btn.dataset.localId;
       cartItems = cartItems.filter(it => String(it.localId) !== String(localId));
     } else if (action === 'remove-all') {
-      cartItems = cartItems.filter(it => String(it.id) !== String(itemId));
+      cartItems = cartItems.filter(it => {
+        if (variantName) {
+          return !(String(it.id) === String(itemId) && String(it.variantName || '') === String(variantName));
+        }
+        return String(it.id) !== String(itemId);
+      });
     } else if (action === 'inc') {
       const item = menuData.find(i => String(i.id) === String(itemId));
-      if (item) cartItems.push({ ...item, quantity: 1, localId: Date.now() });
+      if (item) {
+        if (variantName && Array.isArray(item.variants)) {
+          const v = item.variants.find(v => String(v.name) === String(variantName));
+          const vp = v ? (typeof v.price === 'number' ? v.price : Number(v.price || 0)) : (typeof item.price === 'number' ? item.price : Number(item.price || 0));
+          cartItems.push({ ...item, price: vp, variantPrice: vp, variantName, quantity: 1, localId: Date.now() });
+        } else {
+          cartItems.push({ ...item, quantity: 1, localId: Date.now() });
+        }
+      }
     } else if (action === 'dec') {
-      const idx = cartItems.findIndex(it => String(it.id) === String(itemId));
+      const idx = cartItems.findIndex(it => {
+        if (variantName) {
+          return String(it.id) === String(itemId) && String(it.variantName || '') === String(variantName);
+        }
+        return String(it.id) === String(itemId);
+      });
       if (idx >= 0) cartItems.splice(idx, 1);
     }
     const countEl = document.getElementById('cart-count');
@@ -291,9 +357,10 @@ if (cartButtonEl && !cartButtonEl.dataset.bound) {
 function aggregateCart() {
   const map = new Map();
   cartItems.forEach((it) => {
-    const key = String(it.id || it.name);
-    const unit = typeof it.price === 'number' ? it.price : Number(it.price||0);
-    const prev = map.get(key) || { id: it.id, name: it.name || '', unitPrice: unit, qty: 0, imageUrl: it.imageUrl || '' };
+    const vName = String(it.variantName || '');
+    const key = `${String(it.id || it.name)}|${vName}`;
+    const unit = typeof it.variantPrice === 'number' ? it.variantPrice : (typeof it.price === 'number' ? it.price : Number(it.price||0));
+    const prev = map.get(key) || { id: it.id, name: it.name || '', unitPrice: unit, qty: 0, imageUrl: it.imageUrl || '', variantName: vName };
     prev.qty += 1;
     map.set(key, prev);
   });
@@ -308,7 +375,8 @@ function generateInvoiceText(params) {
   itemsAgg.forEach((it) => {
     const amount = it.unitPrice * it.qty;
     total += amount;
-    lines.push(`- ${it.name} x ${it.qty} — ${Number(amount).toLocaleString('en-US')} د.ع`);
+    const sizeTxt = it.variantName ? ` (${it.variantName})` : '';
+    lines.push(`- ${it.name}${sizeTxt} x ${it.qty} — ${Number(amount).toLocaleString('en-US')} د.ع`);
   });
   lines.push(`المجموع: ${Number(total).toLocaleString('en-US')} د.ع`);
   lines.push(`الاسم: ${name || ''}`);
@@ -316,6 +384,52 @@ function generateInvoiceText(params) {
   lines.push(`العنوان: ${address || ''}`);
   lines.push(`ملاحظة: ${note && note.trim() ? note.trim() : 'ماكو شي'}`);
   return lines.join('\n');
+}
+
+// إرسال مخفي وسريع إلى Google Sheets عبر Webhook/App Script
+function sendOrderToSheetsHidden(params) {
+  try {
+    const url = (siteSettings?.googleSheetsWebhookUrl || '').trim();
+    if (!url) return; // غير مفعّل
+    const payload = {
+      name: params.name || '',
+      phone: params.phone || '',
+      address: params.address || '',
+      total: Number(params.total || 0),
+      timestamp: params.timestamp || new Date().toISOString()
+    };
+    const body = JSON.stringify(payload);
+    // استخدم sendBeacon إن توفر لضمان الإرسال حتى عند انتقال الصفحة
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+      navigator.sendBeacon(url, blob);
+      return;
+    }
+    // بديل: fetch بلا انتظار، لا يقاطع تجربة المستخدم
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body,
+      mode: 'no-cors',
+      keepalive: true
+    }).catch(() => {});
+
+    // احتياطي إضافي: ping عبر GET (صورة) — يتطلب doGet في Apps Script
+    setTimeout(() => {
+      try {
+        const qs = new URLSearchParams({
+          name: String(payload.name || ''),
+          phone: String(payload.phone || ''),
+          address: String(payload.address || ''),
+          total: String(Number(payload.total || 0)),
+          timestamp: String(payload.timestamp || new Date().toISOString())
+        }).toString();
+        const img = new Image();
+        img.referrerPolicy = 'no-referrer';
+        img.src = `${url}?${qs}`;
+      } catch {}
+    }, 0);
+  } catch {}
 }
 
 async function submitOrder() {
@@ -326,6 +440,38 @@ async function submitOrder() {
       address: orderAddressEl?.value?.trim() || '',
       note: orderNoteEl?.value?.trim() || ''
     };
+
+    // تحقق الحقول الإلزامية: الاسم، الرقم، العنوان
+    const missing = [];
+    if (!payload.name) missing.push({ el: orderNameEl, label: 'الاسم' });
+    if (!payload.phone) missing.push({ el: orderPhoneEl, label: 'الرقم' });
+    if (!payload.address) missing.push({ el: orderAddressEl, label: 'العنوان' });
+    if (missing.length) {
+      // إبراز أول حقل ناقص والتركيز عليه
+      const first = missing[0];
+      try {
+        if (first.el) {
+          first.el.focus();
+          const prevBorder = first.el.style.border;
+          first.el.style.border = '2px solid #dc2626'; // red-600
+          setTimeout(() => { first.el.style.border = prevBorder || ''; }, 3000);
+        }
+      } catch {}
+      const names = missing.map(m => m.label).join('، ');
+      showMessage(`الحقول المطلوبة مفقودة: ${names}`, 'error');
+      return; // لا تواصل الإرسال إذا كانت الحقول ناقصة
+    }
+    // احسب الإجمالي وتاريخ الإرسال لإرسالهما للشيت بشكل مخفي
+    const totalAmount = cartItems.reduce((sum, it) => sum + (typeof it.variantPrice === 'number' ? it.variantPrice : (typeof it.price === 'number' ? it.price : Number(it.price || 0))), 0);
+    const timestamp = new Date().toISOString();
+    // إرسال مخفي فورًا قبل فتح واتساب لضمان عدم إلغاء الطلب عند التنقّل
+    sendOrderToSheetsHidden({
+      name: payload.name,
+      phone: payload.phone,
+      address: payload.address,
+      total: totalAmount,
+      timestamp
+    });
     const text = generateInvoiceText(payload);
     const waRaw = (siteSettings?.whatsappNumber || '').trim();
     const waDigits = waRaw.replace(/\D+/g, '');
@@ -373,7 +519,7 @@ function renderCategoriesAsCards() {
       colSpan = 'col-span-1';
     }
 
-    const bgImage = cat.imageUrl || categoryImages[name] || 'https://placehold.co/600x400/334155/ffffff?text=Category';
+    const bgImage = cat.imageUrl || categoryImages[name] || 'https://placehold.co/600x400/334155/ffffff?text=%20&v=2';
     const card = document.createElement('div');
     card.className = `category-card animated-item scroll-animate ${colSpan} ${classes} bg-slate-800 p-4 rounded-xl flex flex-col justify-end shadow-xl overflow-hidden relative`;
     card.setAttribute('onclick', `showItemsForCategory('${name}')`);
@@ -382,7 +528,7 @@ function renderCategoriesAsCards() {
       <div class="absolute inset-0 bg-black opacity-30 rounded-xl"></div>
       <div class="relative z-10 p-2 text-right">
         <h3 class="text-2xl font-black text-blue-300 leading-none" style="color: ${siteSettings?.theme?.categoryTitleColor || '#2563EB'}">${name}</h3>
-        <p class="text-sm text-gray-200 mt-1">${(rawSize === 2 || rawSize === 'large') ? 'عرض القائمة الكاملة' : 'اكتشف الآن'}</p>
+        <p class="text-sm text-gray-200 mt-1">${(rawSize === 2 || rawSize === 'large') ? 'عرض القائمة الكاملة' : ''}</p>
       </div>
     `;
     container.appendChild(card);
@@ -443,9 +589,105 @@ function renderMenuItemsForSpecificCategory(category) {
                             onclick="event.stopPropagation(); addItemToCart(${item.id});" 
                             style="background-color: ${siteSettings?.theme?.addToCartBgColor || '#2563EB'}"
                         >
-                            <img src="add.png" alt="إضافة" class="add-icon w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/20x20/ffffff/000?text=+';">
+                            <i class="ph ph-plus text-white text-2xl font-black"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        `;
+        menuItemsForCategoryElement.insertAdjacentHTML('beforeend', itemHtml);
+    });
+    refreshScrollAnimations();
+}
+
+// عرض الأصناف مع دعم أحجام/متغيرات بأسعارها وأزرار إضافة
+function renderMenuItemsForSpecificCategoryWithVariants(category) {
+    menuItemsForCategoryElement.innerHTML = '';
+    const filteredItems = (Array.isArray(menuData) ? menuData : []).filter(item => item.category === category);
+    if (filteredItems.length === 0) {
+        menuItemsForCategoryElement.innerHTML = '<p class="text-center text-gray-700 mt-10">لا توجد أصناف في هذا القسم حاليًا.</p>';
+        return;
+    }
+
+    filteredItems.forEach((item, index) => {
+        const animationDelay = index * 0.1;
+        if (item && item.type === 'subheading') {
+            const dividerColor = siteSettings?.theme?.dividerColor || '#2563EB';
+            const titleColor = siteSettings?.theme?.categoryTitleColor || '#2563EB';
+            const sepHtml = `
+                <div class="animated-item scroll-animate" style="animation-delay: ${animationDelay}s;">
+                  <div class="flex items-center gap-3 my-6">
+                    <div class="h-px flex-1" style="background: ${dividerColor};"></div>
+                    <span class="inline-block px-3 py-1 rounded-full font-bold text-sm" style="color: ${titleColor}; border: 1px solid ${dividerColor};">${item.name}</span>
+                    <div class="h-px flex-1" style="background: ${dividerColor};"></div>
+                  </div>
+                </div>
+            `;
+            menuItemsForCategoryElement.insertAdjacentHTML('beforeend', sepHtml);
+            return;
+        }
+
+        const bgColorClass = itemCardColors[index % itemCardColors.length];
+        const basePrice = typeof item.price === 'number' ? item.price : Number(item.price || 0);
+        const imageSrc = item.imageUrl || 'https://placehold.co/600x400/334155/ffffff?text=Image';
+        const variants = Array.isArray(item.variants) ? item.variants.filter(v => v && v.name) : [];
+        const hasVariants = variants.length > 0;
+
+        const variantsHtml = hasVariants ? `
+          <div class="mt-3 space-y-2">
+            ${variants.map(v => {
+              const vp = typeof v.price === 'number' ? v.price : Number(v.price||0);
+              const vName = String(v.name).replace(/\"/g, '&quot;').replace(/'/g, "\\'");
+              return `
+                <div class="flex items-center justify-between bg-white rounded-lg p-2">
+                  <span class="font-extrabold text-black">${vName}</span>
+                  <div class="flex items-center gap-3">
+                    <span class="text-blue-600 font-bold">${Number(vp).toLocaleString('en-US')} د.ع</span>
+                    <button 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center transition duration-200 shadow-md"
+                      onclick="event.stopPropagation(); addVariantToCart(${item.id}, '${vName}', ${Number(vp)}, this);"
+                      title="إضافة ${vName}"
+                      style="background-color: ${siteSettings?.theme?.addToCartBgColor || '#2563EB'}"
+                    >
+                      <i class="ph ph-plus text-white text-base font-black"></i>
+                    </button>
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>
+        ` : '';
+
+        const addButtonHtml = hasVariants ? '' : `
+          <button 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center transition duration-200 shadow-md"
+            data-item-id="${item.id}"
+            onclick="event.stopPropagation(); addItemToCart(${item.id});" 
+            style="background-color: ${siteSettings?.theme?.addToCartBgColor || '#2563EB'}"
+          >
+            <i class="ph ph-plus text-white text-2xl font-black"></i>
+          </button>
+        `;
+
+        const priceRowHtml = hasVariants ? '' : `
+          <div class="flex justify-between items-center mt-3">
+            <span class="text-2xl font-extrabold text-blue-300" style="color: ${siteSettings?.theme?.itemPriceColor || '#93C5FD'}">${Number(basePrice).toLocaleString('en-US')} د.ع</span>
+            ${addButtonHtml}
+          </div>
+        `;
+
+        const itemHtml = `
+            <div 
+                class="menu-item-card ${bgColorClass} rounded-xl shadow-xl shadow-gray-400 overflow-hidden animated-item scroll-animate" 
+                data-id="${item.id}"
+                style="animation-delay: ${animationDelay}s; background-color: ${siteSettings?.theme?.itemCardBgColor || '#374151'};"
+                onclick="openItemModal(${item.id})"
+            >
+                <img src="${imageSrc}" alt="${item.name}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/334155/ffffff?text=Image+Error';">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-white" style="color: ${siteSettings?.theme?.itemNameColor || '#ffffff'}">${item.name}</h3>
+                    <p class="text-sm text-gray-300 mt-1" style="color: ${siteSettings?.theme?.itemDescriptionColor || '#D1D5DB'}">${item.description || ''}</p>
+                    ${priceRowHtml}
+                    ${variantsHtml}
                 </div>
             </div>
         `;
@@ -465,6 +707,7 @@ window.showCategories = () => {
     mainTitleElement.classList.remove('text-left');
     mainTitleElement.classList.add('text-right');
     renderCategoriesAsCards();
+    try { refreshScrollAnimations && refreshScrollAnimations(); } catch {}
 }
 
 window.showItemsForCategory = (category) => {
@@ -475,7 +718,8 @@ window.showItemsForCategory = (category) => {
     // تثبيت محاذاة العنوان لليمين كما طلب المستخدم
     mainTitleElement.classList.remove('text-left');
     mainTitleElement.classList.add('text-right');
-    renderMenuItemsForSpecificCategory(category);
+    renderMenuItemsForSpecificCategoryWithVariants(category);
+    try { refreshScrollAnimations && refreshScrollAnimations(); } catch {}
 }
 
 // --- Event Handlers/Logic ---
@@ -500,7 +744,7 @@ window.addItemToCart = (itemId) => {
             try { clearTimeout(Number(cardBtn.dataset.revertTimerId)); } catch {}
         }
         const tId = setTimeout(() => {
-            cardBtn.innerHTML = '<img src="add.png" alt="إضافة" class="add-icon w-6 h-6" onerror="this.onerror=null;this.src=\'https://placehold.co/20x20/ffffff/000?text=+\';">';
+            cardBtn.innerHTML = '<i class="ph ph-plus text-white text-2xl font-black"></i>';
             delete cardBtn.dataset.revertTimerId;
         }, 1200);
         cardBtn.dataset.revertTimerId = String(tId);
@@ -514,13 +758,41 @@ window.addItemToCart = (itemId) => {
           try { clearTimeout(Number(modalBtn.dataset.revertTimerId)); } catch {}
       }
       const mtId = setTimeout(() => {
-          modalBtn.innerHTML = '<img src="add.png" alt="إضافة" class="add-icon w-6 h-6" onerror="this.onerror=null;this.src=\'https://placehold.co/20x20/ffffff/000?text=+\';">';
+          modalBtn.innerHTML = '<i class="ph ph-plus text-white text-2xl font-black"></i>';
           delete modalBtn.dataset.revertTimerId;
       }, 1200);
       modalBtn.dataset.revertTimerId = String(mtId);
   }
 
     // تم إلغاء رسالة الإشعار عند الإضافة بناءً على رغبة المستخدم
+}
+
+// إضافة صنف بحجم محدد إلى السلة
+window.addVariantToCart = (itemId, variantName, variantPrice, btnEl) => {
+  const item = menuData.find(i => i.id === parseInt(itemId) || i.id === itemId);
+  if (!item) return;
+  const vp = typeof variantPrice === 'number' ? variantPrice : Number(variantPrice || 0);
+  cartItems.push({ ...item, price: vp, variantPrice: vp, variantName, quantity: 1, localId: Date.now() });
+  const countEl = document.getElementById('cart-count');
+  if (countEl) {
+    countEl.textContent = cartItems.length.toString();
+    countEl.style.opacity = '1';
+  }
+  // تحديت السلة مباشرة
+  renderCart();
+
+  // قلب زر الإضافة إلى علامة صح ثم الرجوع إلى + أبيض
+  if (btnEl) {
+    btnEl.innerHTML = '<i class="ph ph-check text-base font-black"></i>';
+    if (btnEl.dataset.revertTimerId) {
+      try { clearTimeout(Number(btnEl.dataset.revertTimerId)); } catch {}
+    }
+    const tId = setTimeout(() => {
+      btnEl.innerHTML = '<i class="ph ph-plus text-white text-base font-black"></i>';
+      delete btnEl.dataset.revertTimerId;
+    }, 1200);
+    btnEl.dataset.revertTimerId = String(tId);
+  }
 }
 
 // --- Initial Load ---
@@ -775,6 +1047,27 @@ function applyTheme(theme) {
 
 async function initTheme() {
   siteSettings = await loadSiteSettings();
+  // Determine current branch key from page context or URL
+  try {
+    const hintedKey = typeof window.__BRANCH_KEY === 'string' ? window.__BRANCH_KEY.trim() : '';
+    const urlKey = (location.pathname.split('/').pop() || '').replace(/\.html?$/i, '').trim();
+    const branchKey = hintedKey || urlKey;
+    const branches = siteSettings?.branches || {};
+    const b = branches[branchKey] || null;
+    if (b && typeof b === 'object') {
+      // Overlay per-branch fields if available
+      if (b.locationName) siteSettings.locationName = b.locationName;
+      if (b.whatsappNumber) siteSettings.whatsappNumber = b.whatsappNumber;
+      if (b.contactNumber) siteSettings.contactNumber = b.contactNumber;
+      if (b.mapLink) siteSettings.mapLink = b.mapLink;
+    }
+    // Optional: allow page hint for display name if branch settings didn't define it
+    const bn = window.__BRANCH_NAME;
+    if (!siteSettings.locationName && bn && typeof bn === 'string' && bn.trim()) {
+      const name = bn.trim();
+      siteSettings.locationName = name.startsWith('فرع') ? name : `فرع ${name}`;
+    }
+  } catch {}
   applyTheme(siteSettings.theme);
 }
 

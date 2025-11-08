@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "name": "الوجبات المقرمشة",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "السندويشات",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "الريزو",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "الإضافات",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "البركر",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "المقبلات",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "الصاج الإيطالي",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "الأجنحة",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "البيتزا",
+    "size": "small",
+    "imageUrl": ""
+  }
+]

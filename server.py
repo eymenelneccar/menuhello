@@ -8,6 +8,8 @@ import io
 import mimetypes
 from urllib.parse import unquote, urlparse
 import zipfile
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 
 ROOT_DIR = os.path.abspath(os.getcwd())
@@ -16,6 +18,16 @@ ASSETS_CATEGORIES_PATH = os.path.join(ROOT_DIR, 'assets', 'categories.json')
 ASSETS_SETTINGS_PATH = os.path.join(ROOT_DIR, 'assets', 'settings.json')
 ASSETS_ANNOUNCEMENTS_PATH = os.path.join(ROOT_DIR, 'assets', 'announcements.json')
 ASSETS_HERO_PATH = os.path.join(ROOT_DIR, 'assets', 'hero.json')
+
+# وجهة إرسال البيانات إلى Google Apps Script
+GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwobA9lILVuAPpD6sR9-3BiKVjxl8tPe58g5DviEBvQ3p52NY74Mwk2yUTRzqxvB9Jhfw/exec'
+
+def read_json_file(path, default=None):
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return default
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -166,6 +178,86 @@ class Handler(SimpleHTTPRequestHandler):
             return super().do_GET()
 
     def do_POST(self):
+        # تصدير كل البيانات إلى Google Apps Script
+        if self.path == '/api/export-to-google':
+            length = int(self.headers.get('Content-Length', '0'))
+            body = self.rfile.read(length) if length > 0 else b''
+            payload_client = None
+            try:
+                if body:
+                    payload_client = json.loads(body.decode('utf-8'))
+            except Exception:
+                payload_client = None
+
+            # حمّل البيانات من العميل إن أُرسلت، وإلا من ملفات الأصول
+            menu_data = (payload_client or {}).get('menu')
+            categories_data = (payload_client or {}).get('categories')
+            settings_data = (payload_client or {}).get('settings')
+            announcements_data = (payload_client or {}).get('announcements')
+            hero_data = (payload_client or {}).get('hero')
+
+            if menu_data is None:
+                menu_data = read_json_file(ASSETS_MENU_PATH, default=[])
+            if categories_data is None:
+                categories_data = read_json_file(ASSETS_CATEGORIES_PATH, default=[])
+            if settings_data is None:
+                settings_data = read_json_file(ASSETS_SETTINGS_PATH, default={})
+            if announcements_data is None:
+                announcements_data = read_json_file(ASSETS_ANNOUNCEMENTS_PATH, default={})
+            if hero_data is None:
+                hero_data = read_json_file(ASSETS_HERO_PATH, default={})
+
+            export_payload = {
+                'ok': True,
+                'source': {
+                    'host': self.headers.get('Host', ''),
+                    'path': '/',
+                },
+                'timestamp': int(time.time()),
+                'assets': {
+                    'menu': menu_data,
+                    'categories': categories_data,
+                    'settings': settings_data,
+                    'announcements': announcements_data,
+                    'hero': hero_data,
+                }
+            }
+
+            # أرسل إلى Google Apps Script
+            try:
+                req = Request(
+                    GOOGLE_SCRIPT_URL,
+                    data=json.dumps(export_payload, ensure_ascii=False).encode('utf-8'),
+                    headers={'Content-Type': 'application/json'}
+                )
+                with urlopen(req, timeout=20) as resp:
+                    resp_text = resp.read().decode('utf-8', errors='replace')
+                    # أعد الرد للعميل مع نتيجة Google
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'ok': True, 'google_response': resp_text}).encode('utf-8'))
+                    return
+            except HTTPError as e:
+                err_text = e.read().decode('utf-8', errors='replace') if hasattr(e, 'read') else str(e)
+                self.send_response(e.code if hasattr(e, 'code') else 500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'HTTPError', 'details': err_text}).encode('utf-8'))
+                return
+            except URLError as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'URLError', 'details': str(e)}).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'Export failed', 'details': str(e)}).encode('utf-8'))
+                return
+
         if self.path == '/api/save-menu':
             length = int(self.headers.get('Content-Length', '0'))
             body = self.rfile.read(length)

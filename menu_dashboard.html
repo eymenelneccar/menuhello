@@ -26,6 +26,7 @@
         <button id="btnAdd" class="px-4 py-2 rounded-lg bg-primary text-white hover:opacity-90">إضافة صنف</button>
         <button id="btnSave" class="px-4 py-2 rounded-lg border">حفظ الأصناف</button>
         <button id="btnImport" class="px-4 py-2 rounded-lg border">استيراد JSON</button>
+        <button id="btnExportGoogle" class="px-4 py-2 rounded-lg bg-green-600 text-white">إرسال إلى Google</button>
       </div>
     </div>
     <!-- تبويبات الأقسام -->
@@ -107,6 +108,11 @@
           <label class="block text-sm text-gray-700 mb-1">رابط خريطة (Google Maps)</label>
           <input id="mapLink" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
         </div>
+        <div class="sm:col-span-2">
+          <label class="block text-sm text-gray-700 mb-1">رابط Google Apps Script (Web App)</label>
+          <input id="googleSheetsWebhookUrl" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://script.google.com/macros/s/.../exec">
+          <p class="text-xs text-gray-500 mt-1">انسخ رابط النشر للويب آب من Apps Script واضعه هنا لاستقبال الطلبات في Google Sheets.</p>
+        </div>
         <div class="sm:col-span-2 flex items-center gap-3 mt-2">
           <input id="ordersEnabled" type="checkbox" class="scale-125">
           <label for="ordersEnabled" class="text-gray-700">تفعيل استقبال الطلبات أونلاين</label>
@@ -115,6 +121,61 @@
           <button id="btnSaveSettings" type="button" class="px-4 py-2 rounded-lg bg-primary text-white">حفظ الإعدادات</button>
         </div>
       </form>
+      <hr class="my-6 border-t" />
+      <h3 class="text-xl font-bold text-primary mb-2">إعدادات الفروع</h3>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <!-- فرع الصدر -->
+        <div class="p-4 border rounded-xl bg-white">
+          <h4 class="font-bold mb-3">فرع الصدر</h4>
+          <label class="block text-sm text-gray-700 mb-1">اسم العرض</label>
+          <input id="branch-alsider-locationName" type="text" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="فرع الصدر">
+          <label class="block text-sm text-gray-700 mb-1">رقم واتساب</label>
+          <input id="branch-alsider-whatsapp" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx أو 9665xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رقم اتصال</label>
+          <input id="branch-alsider-contact" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رابط الخريطة</label>
+          <input id="branch-alsider-map" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
+        </div>
+
+        <!-- فرع الزعفرانية -->
+        <div class="p-4 border rounded-xl bg-white">
+          <h4 class="font-bold mb-3">فرع الزعفرانية</h4>
+          <label class="block text-sm text-gray-700 mb-1">اسم العرض</label>
+          <input id="branch-alzafranye-locationName" type="text" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="فرع الزعفرانية">
+          <label class="block text-sm text-gray-700 mb-1">رقم واتساب</label>
+          <input id="branch-alzafranye-whatsapp" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx أو 9665xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رقم اتصال</label>
+          <input id="branch-alzafranye-contact" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رابط الخريطة</label>
+          <input id="branch-alzafranye-map" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
+        </div>
+
+        <!-- فرع الدورة -->
+        <div class="p-4 border rounded-xl bg-white">
+          <h4 class="font-bold mb-3">فرع الدورة</h4>
+          <label class="block text-sm text-gray-700 mb-1">اسم العرض</label>
+          <input id="branch-aldwra-locationName" type="text" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="فرع الدورة">
+          <label class="block text-sm text-gray-700 mb-1">رقم واتساب</label>
+          <input id="branch-aldwra-whatsapp" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx أو 9665xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رقم اتصال</label>
+          <input id="branch-aldwra-contact" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رابط الخريطة</label>
+          <input id="branch-aldwra-map" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
+        </div>
+
+        <!-- فرع البلديات -->
+        <div class="p-4 border rounded-xl bg-white">
+          <h4 class="font-bold mb-3">فرع البلديات</h4>
+          <label class="block text-sm text-gray-700 mb-1">اسم العرض</label>
+          <input id="branch-albalafiyat-locationName" type="text" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="فرع البلديات">
+          <label class="block text-sm text-gray-700 mb-1">رقم واتساب</label>
+          <input id="branch-albalafiyat-whatsapp" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx أو 9665xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رقم اتصال</label>
+          <input id="branch-albalafiyat-contact" type="tel" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="05xxxxxxxx">
+          <label class="block text-sm text-gray-700 mb-1">رابط الخريطة</label>
+          <input id="branch-albalafiyat-map" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
+        </div>
+      </div>
     </section>
 
     <!-- قسم الثيم -->
@@ -300,7 +361,7 @@
   <!-- نافذة نموذج إضافة/تعديل -->
   <div id="editModal" class="fixed inset-0 hidden bg-black/40 backdrop-blur-sm">
     <div class="w-full max-w-xl mx-auto mt-16 bg-white rounded-xl shadow-lg overflow-y-auto max-h-[85vh]">
-      <div class="px-6 py-4 border-b">
+      <div class="px-6 py-4 border-b sticky top-0 bg-white z-10">
         <h2 id="modalTitle" class="text-xl font-bold text-primary">إضافة صنف</h2>
       </div>
       <form id="itemForm" class="p-6 space-y-4">
@@ -335,6 +396,15 @@
           <label class="block text-sm text-gray-700 mb-1">الوصف</label>
           <textarea id="fDesc" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="وصف قصير للصنف"></textarea>
         </div>
+        <!-- محرر الأحجام/المتغيرات -->
+        <div class="border rounded-lg p-3">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-primary">أحجام وأسعار (اختياري)</h3>
+            <button type="button" id="btnAddVariant" class="px-2 py-1 rounded-lg border text-sm">إضافة حجم</button>
+          </div>
+          <p class="text-xs text-gray-500 mb-2">مثال: صغير / وسط / كبير مع سعر لكل حجم. إن وُجدت أحجام فستظهر الأزرار في القائمة مباشرة لإضافة الحجم المطلوب للسلة.</p>
+          <div id="variantsList" class="space-y-2"></div>
+        </div>
         <div class="flex items-center justify-end gap-3 pt-2">
           <button type="button" id="btnCancel" class="px-4 py-2 rounded-lg border">إلغاء</button>
           <button type="submit" class="px-4 py-2 rounded-lg bg-primary text-white">حفظ</button>
@@ -365,6 +435,7 @@
     const ASSETS_BASE = (location.protocol === 'file:' ? (API_BASE + '/assets') : 'assets');
     const SAVE_ENDPOINT = API_BASE + '/api/save-menu';
     const UPLOAD_ENDPOINT = API_BASE + '/api/upload-image';
+    const EXPORT_TO_GOOGLE_ENDPOINT = API_BASE + '/api/export-to-google';
 
     const defaultItems = [
       {
@@ -395,6 +466,7 @@
       btnAdd: document.getElementById('btnAdd'),
       btnSave: document.getElementById('btnSave'),
       btnImport: document.getElementById('btnImport'),
+      btnExportGoogle: document.getElementById('btnExportGoogle'),
       fileInput: (() => {
         const input = document.createElement('input');
         input.type = 'file';
@@ -411,6 +483,8 @@
       fPrice: document.getElementById('fPrice'),
       fImage: document.getElementById('fImage'),
       fDesc: document.getElementById('fDesc'),
+      variantsList: document.getElementById('variantsList'),
+      btnAddVariant: document.getElementById('btnAddVariant'),
       btnCancel: document.getElementById('btnCancel'),
       confirmModal: document.getElementById('confirmModal'),
       btnCancelDelete: document.getElementById('btnCancelDelete'),
@@ -426,6 +500,36 @@
         return input;
       })()
     };
+
+    // متغيرات النموذج للأحجام
+    let formVariants = [];
+
+    function renderVariantsEditor() {
+      if (!els.variantsList) return;
+      els.variantsList.innerHTML = '';
+      if (!Array.isArray(formVariants)) formVariants = [];
+      formVariants.forEach((v, idx) => {
+        const row = document.createElement('div');
+        row.className = 'grid grid-cols-12 items-center gap-2';
+        row.innerHTML = `
+          <input type="text" class="col-span-5 border rounded-lg px-3 py-2 variant-name" placeholder="الحجم" value="${(v.name||'').replace(/"/g, '&quot;')}">
+          <input type="number" min="0" step="1" class="col-span-4 border rounded-lg px-3 py-2 variant-price" placeholder="السعر" value="${Number(v.price||0)}">
+          <button type="button" class="col-span-3 px-3 py-2 rounded-lg bg-red-600 text-white variant-delete">حذف</button>
+        `;
+        els.variantsList.appendChild(row);
+        const nameI = row.querySelector('.variant-name');
+        const priceI = row.querySelector('.variant-price');
+        const delBtn = row.querySelector('.variant-delete');
+        nameI.addEventListener('input', (e) => { formVariants[idx].name = e.target.value; });
+        priceI.addEventListener('input', (e) => { formVariants[idx].price = Number(e.target.value||0); });
+        delBtn.addEventListener('click', () => { formVariants.splice(idx, 1); renderVariantsEditor(); });
+      });
+      // زر إضافة
+      if (els.btnAddVariant && !els.btnAddVariant.dataset.boundVariants) {
+        els.btnAddVariant.addEventListener('click', () => { formVariants.push({ name: '', price: 0 }); renderVariantsEditor(); });
+        els.btnAddVariant.dataset.boundVariants = '1';
+      }
+    }
 
     async function loadData() {
       // حمّل من ملف الأصول أولاً ليكون المصدر الموثوق
@@ -503,6 +607,8 @@
       els.fPrice.value = item?.price != null ? item.price : '';
       els.fImage.value = item?.imageUrl || '';
       els.fDesc.value = item?.description || '';
+      formVariants = Array.isArray(item?.variants) ? item.variants.map(v => ({ name: v.name||'', price: Number(v.price||0) })) : [];
+      renderVariantsEditor();
       els.editModal.classList.remove('hidden');
     }
 
@@ -510,6 +616,7 @@
       els.editModal.classList.add('hidden');
       editingId = null;
       els.form.reset();
+      formVariants = [];
     }
 
     function openConfirmDelete(id) {
@@ -641,10 +748,10 @@
       if (!name || Number.isNaN(price)) return;
 
       if (editingId != null) {
-        items = items.map(x => x.id === editingId ? { ...x, name, category, price, imageUrl, description } : x);
+        items = items.map(x => x.id === editingId ? { ...x, name, category, price, imageUrl, description, variants: [...formVariants] } : x);
       } else {
         const id = Date.now() + Math.floor(Math.random() * 1000);
-        items.push({ id, name, category, price, imageUrl, description });
+        items.push({ id, name, category, price, imageUrl, description, variants: [...formVariants] });
       }
 
       saveData();
@@ -664,7 +771,20 @@
     const SAVE_HERO_ENDPOINT = API_BASE + '/api/save-hero';
 
     let categories = [];
-    let settings = { whatsappNumber: '', contactNumber: '', locationName: '', mapLink: '', ordersEnabled: false, theme: { textColor: '#111827', bgColor: '#ffffff', dividerColor: '#2563EB', backButtonColor: '#374151', navBgColor: '#0f172a', textAdBgColor: '#0b2545', itemNameColor: '#ffffff', categoryTitleColor: '#2563EB', itemCardBgColor: '#374151', itemDescriptionColor: '#D1D5DB', itemPriceColor: '#93C5FD', addToCartBgColor: '#2563EB' } };
+    let settings = {
+      whatsappNumber: '', contactNumber: '', locationName: '', mapLink: '', ordersEnabled: false,
+      theme: {
+        textColor: '#111827', bgColor: '#ffffff', dividerColor: '#2563EB', backButtonColor: '#374151',
+        navBgColor: '#0f172a', textAdBgColor: '#0b2545', itemNameColor: '#ffffff', categoryTitleColor: '#2563EB',
+        itemCardBgColor: '#374151', itemDescriptionColor: '#D1D5DB', itemPriceColor: '#93C5FD', addToCartBgColor: '#2563EB'
+      },
+      branches: {
+        alsider: { locationName: 'فرع الصدر', whatsappNumber: '', contactNumber: '', mapLink: '' },
+        alzafranye: { locationName: 'فرع الزعفرانية', whatsappNumber: '', contactNumber: '', mapLink: '' },
+        aldwra: { locationName: 'فرع الدورة', whatsappNumber: '', contactNumber: '', mapLink: '' },
+        albalafiyat: { locationName: 'فرع البلديات', whatsappNumber: '', contactNumber: '', mapLink: '' }
+      }
+    };
     let announcements = { megaEnabled: false, megaTitle: '', megaImageUrl: '', megaLink: '', textEnabled: false, textContent: '' };
 
     const tabsNav = document.getElementById('tabs');
@@ -926,14 +1046,73 @@
     catsEls.btnAdd.addEventListener('click', addCategory);
     catsEls.btnSave.addEventListener('click', saveCategoriesToServer);
 
+    // ===== تصدير كل البيانات إلى Google Apps Script =====
+    async function exportAllToGoogle() {
+      const original = els.btnExportGoogle.textContent;
+      els.btnExportGoogle.textContent = 'جارِ الإرسال...';
+      els.btnExportGoogle.disabled = true;
+      try {
+        const payload = {
+          menu: Array.isArray(items) ? items : [],
+          categories: Array.isArray(categories) ? categories : [],
+          settings: settings || {},
+          announcements: announcements || {},
+          hero: hero || {}
+        };
+        const resp = await fetch(EXPORT_TO_GOOGLE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await resp.json().catch(() => ({}));
+        if (!resp.ok || json.ok === false) throw new Error(json.error || 'فشل الإرسال');
+        els.btnExportGoogle.textContent = 'تم الإرسال ✓';
+        setTimeout(() => { els.btnExportGoogle.textContent = original; }, 2000);
+      } catch (e) {
+        console.error(e);
+        alert('حدث خطأ أثناء الإرسال: ' + (e && e.message || 'غير معروف'));
+        els.btnExportGoogle.textContent = original;
+      } finally {
+        els.btnExportGoogle.disabled = false;
+      }
+    }
+    if (els.btnExportGoogle) els.btnExportGoogle.addEventListener('click', exportAllToGoogle);
+
     // ===== الإعدادات =====
     const settingsEls = {
       whatsappNumber: document.getElementById('whatsappNumber'),
       contactNumber: document.getElementById('contactNumber'),
       locationName: document.getElementById('locationName'),
       mapLink: document.getElementById('mapLink'),
+      googleSheetsWebhookUrl: document.getElementById('googleSheetsWebhookUrl'),
       ordersEnabled: document.getElementById('ordersEnabled'),
       btnSave: document.getElementById('btnSaveSettings')
+    };
+    const branchEls = {
+      alsider: {
+        locationName: document.getElementById('branch-alsider-locationName'),
+        whatsapp: document.getElementById('branch-alsider-whatsapp'),
+        contact: document.getElementById('branch-alsider-contact'),
+        map: document.getElementById('branch-alsider-map')
+      },
+      alzafranye: {
+        locationName: document.getElementById('branch-alzafranye-locationName'),
+        whatsapp: document.getElementById('branch-alzafranye-whatsapp'),
+        contact: document.getElementById('branch-alzafranye-contact'),
+        map: document.getElementById('branch-alzafranye-map')
+      },
+      aldwra: {
+        locationName: document.getElementById('branch-aldwra-locationName'),
+        whatsapp: document.getElementById('branch-aldwra-whatsapp'),
+        contact: document.getElementById('branch-aldwra-contact'),
+        map: document.getElementById('branch-aldwra-map')
+      },
+      albalafiyat: {
+        locationName: document.getElementById('branch-albalafiyat-locationName'),
+        whatsapp: document.getElementById('branch-albalafiyat-whatsapp'),
+        contact: document.getElementById('branch-albalafiyat-contact'),
+        map: document.getElementById('branch-albalafiyat-map')
+      }
     };
     const themeEls = {
       textColor: document.getElementById('themeTextColor'),
@@ -967,7 +1146,25 @@
       settingsEls.contactNumber.value = settings.contactNumber || '';
       settingsEls.locationName.value = settings.locationName || '';
       settingsEls.mapLink.value = settings.mapLink || '';
+      if (settingsEls.googleSheetsWebhookUrl) settingsEls.googleSheetsWebhookUrl.value = settings.googleSheetsWebhookUrl || '';
       settingsEls.ordersEnabled.checked = !!settings.ordersEnabled;
+      const b = settings.branches || {};
+      if (branchEls.alsider.locationName) branchEls.alsider.locationName.value = b.alsider?.locationName || 'فرع الصدر';
+      if (branchEls.alsider.whatsapp) branchEls.alsider.whatsapp.value = b.alsider?.whatsappNumber || '';
+      if (branchEls.alsider.contact) branchEls.alsider.contact.value = b.alsider?.contactNumber || '';
+      if (branchEls.alsider.map) branchEls.alsider.map.value = b.alsider?.mapLink || '';
+      if (branchEls.alzafranye.locationName) branchEls.alzafranye.locationName.value = b.alzafranye?.locationName || 'فرع الزعفرانية';
+      if (branchEls.alzafranye.whatsapp) branchEls.alzafranye.whatsapp.value = b.alzafranye?.whatsappNumber || '';
+      if (branchEls.alzafranye.contact) branchEls.alzafranye.contact.value = b.alzafranye?.contactNumber || '';
+      if (branchEls.alzafranye.map) branchEls.alzafranye.map.value = b.alzafranye?.mapLink || '';
+      if (branchEls.aldwra.locationName) branchEls.aldwra.locationName.value = b.aldwra?.locationName || 'فرع الدورة';
+      if (branchEls.aldwra.whatsapp) branchEls.aldwra.whatsapp.value = b.aldwra?.whatsappNumber || '';
+      if (branchEls.aldwra.contact) branchEls.aldwra.contact.value = b.aldwra?.contactNumber || '';
+      if (branchEls.aldwra.map) branchEls.aldwra.map.value = b.aldwra?.mapLink || '';
+      if (branchEls.albalafiyat.locationName) branchEls.albalafiyat.locationName.value = b.albalafiyat?.locationName || 'فرع البلديات';
+      if (branchEls.albalafiyat.whatsapp) branchEls.albalafiyat.whatsapp.value = b.albalafiyat?.whatsappNumber || '';
+      if (branchEls.albalafiyat.contact) branchEls.albalafiyat.contact.value = b.albalafiyat?.contactNumber || '';
+      if (branchEls.albalafiyat.map) branchEls.albalafiyat.map.value = b.albalafiyat?.mapLink || '';
       // قيم الثيم
       const t = settings.theme || {};
       if (themeEls.textColor) themeEls.textColor.value = t.textColor || '#111827';
@@ -990,6 +1187,7 @@
         contactNumber: settingsEls.contactNumber.value.trim(),
         locationName: settingsEls.locationName.value.trim(),
         mapLink: settingsEls.mapLink.value.trim(),
+        googleSheetsWebhookUrl: settingsEls.googleSheetsWebhookUrl?.value?.trim() || '',
         ordersEnabled: settingsEls.ordersEnabled.checked,
         theme: {
           textColor: themeEls.textColor?.value || settings.theme?.textColor || '#111827',
@@ -1004,6 +1202,34 @@
           itemDescriptionColor: themeEls.itemDescriptionColor?.value || settings.theme?.itemDescriptionColor || '#D1D5DB',
           itemPriceColor: themeEls.itemPriceColor?.value || settings.theme?.itemPriceColor || '#93C5FD',
           addToCartBgColor: themeEls.addToCartBgColor?.value || settings.theme?.addToCartBgColor || '#2563EB'
+        }
+      };
+      // فروع
+      const get = (el) => (el?.value || '').trim();
+      payload.branches = {
+        alsider: {
+          locationName: get(branchEls.alsider.locationName),
+          whatsappNumber: get(branchEls.alsider.whatsapp),
+          contactNumber: get(branchEls.alsider.contact),
+          mapLink: get(branchEls.alsider.map)
+        },
+        alzafranye: {
+          locationName: get(branchEls.alzafranye.locationName),
+          whatsappNumber: get(branchEls.alzafranye.whatsapp),
+          contactNumber: get(branchEls.alzafranye.contact),
+          mapLink: get(branchEls.alzafranye.map)
+        },
+        aldwra: {
+          locationName: get(branchEls.aldwra.locationName),
+          whatsappNumber: get(branchEls.aldwra.whatsapp),
+          contactNumber: get(branchEls.aldwra.contact),
+          mapLink: get(branchEls.aldwra.map)
+        },
+        albalafiyat: {
+          locationName: get(branchEls.albalafiyat.locationName),
+          whatsappNumber: get(branchEls.albalafiyat.whatsapp),
+          contactNumber: get(branchEls.albalafiyat.contact),
+          mapLink: get(branchEls.albalafiyat.map)
         }
       };
       const original = settingsEls.btnSave.textContent;

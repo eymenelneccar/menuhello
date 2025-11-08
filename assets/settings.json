@@ -3,7 +3,8 @@
   "contactNumber": "",
   "locationName": "",
   "mapLink": "https://maps.app.goo.gl/obPCFmiVzMBUzJRR6",
-  "ordersEnabled": false,
+  "googleSheetsWebhookUrl": "https://script.google.com/macros/s/AKfycbwqsmcvwROXZdVpryu1f0hxUeuJ0V7gThLOtA4AlDLYkqcj5Fq45MvVCLzJPTERGBqpWg/exec",
+  "ordersEnabled": true,
   "theme": {
     "textColor": "#1f2937",
     "bgColor": "#ffffff",
@@ -17,5 +18,31 @@
     "itemDescriptionColor": "#6b7280",
     "itemPriceColor": "#333333",
     "addToCartBgColor": "#b81e0e"
+  },
+  "branches": {
+    "alsider": {
+      "locationName": "فرع الصدر",
+      "whatsappNumber": "96407722202247",
+      "contactNumber": "96407722202246",
+      "mapLink": ""
+    },
+    "alzafranye": {
+      "locationName": "فرع الزعفرانية",
+      "whatsappNumber": "96407725222247",
+      "contactNumber": "96407725222248",
+      "mapLink": ""
+    },
+    "aldwra": {
+      "locationName": "فرع الدورة",
+      "whatsappNumber": "96407755553810",
+      "contactNumber": "96407855553810",
+      "mapLink": ""
+    },
+    "albalafiyat": {
+      "locationName": "فرع البلديات",
+      "whatsappNumber": "96407737000032",
+      "contactNumber": "96407737000031",
+      "mapLink": ""
+    }
   }
 }

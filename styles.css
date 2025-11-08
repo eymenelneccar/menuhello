@@ -166,12 +166,10 @@ body {
     border: 1px solid rgba(0,0,0,0.15);
 }
 
-/* Scroll-triggered effects */
+/* Scroll-triggered effects (disabled initial hide to show items immediately) */
 .scroll-animate {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
+    opacity: 1;
+    transform: none;
 }
 .scroll-animate.in-view {
     opacity: 1;
