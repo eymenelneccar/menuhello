@@ -46,7 +46,7 @@
     <!-- قسم الأصناف -->
     <section id="tab-items">
       <div id="itemsGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-      <p id="emptyMsg" class="text-center text-gray-500 mt-8 hidden">لا توجد أصناف بعد. استخدم زر "إضافة صنف" للبدء.</p>
+      <p id="emptyMsg" class="text-center text-gray-500 mt-8 hidden">لا توجد فئات أو أصناف بعد. استخدم زر "إضافة فئة" أو "إضافة صنف" للبدء.</p>
     </section>
 
     <!-- الإدخال السريع من نص -->
@@ -561,41 +561,79 @@
 
     function renderItems() {
       els.grid.innerHTML = '';
-      if (!items.length) {
+      // تحضير قائمة الفئات: استخدم الفئات المضافة إن وُجدت، وإلا اشتقها من الأصناف
+      const categoryList = (Array.isArray(categories) && categories.length)
+        ? categories.map(c => ({ name: (c.name||'').trim() || 'غير مصنف', imageUrl: c.imageUrl || '' }))
+        : Array.from(new Set(items.map(i => (i.category||'').trim() || 'غير مصنف'))).map(n => ({ name: n, imageUrl: '' }));
+
+      if (!categoryList.length) {
         els.empty.classList.remove('hidden');
         return;
       }
       els.empty.classList.add('hidden');
-      items.forEach(item => {
-        // عنصر فاصل بصري (عنوان فرعي)
-        if (item && item.type === 'subheading') {
-          const div = document.createElement('div');
-          div.className = 'bg-gray-100 rounded-xl border p-3 flex items-center justify-between';
-          div.innerHTML = `
-            <span class="text-primary font-semibold">${item.name}</span>
-            <button class="px-3 py-1 rounded-lg bg-red-600 text-white" data-action="delete" data-id="${item.id}">حذف</button>
-          `;
-          els.grid.appendChild(div);
-          return;
-        }
-        const card = document.createElement('div');
-        card.className = 'bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 flex flex-col';
-        card.innerHTML = `
-          <img src="${item.imageUrl || 'https://placehold.co/400x300/cccccc/333?text=صورة'}" alt="${item.name}" class="w-full h-40 object-cover rounded-lg border mb-3" />
-          <div class="flex-1">
-            <h3 class="text-xl font-bold text-primary mb-1">${item.name}</h3>
-            <p class="text-sm text-gray-600 mb-1">الفئة: ${item.category}</p>
-            <p class="text-sm text-gray-600 mb-2">${item.description || ''}</p>
-          </div>
-          <div class="flex items-center justify-between border-t pt-3 mt-2">
-            <span class="text-lg font-semibold text-gray-800">${item.price} ريال</span>
+
+      categoryList.forEach(cat => {
+        const itemsForCat = items.filter(x => ((x.category||'').trim() || 'غير مصنف') === cat.name);
+        const block = document.createElement('div');
+        block.className = 'bg-white rounded-xl shadow-md p-4';
+        block.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <img src="${cat.imageUrl || 'https://placehold.co/64x64/cccccc/333?text=IMG'}" alt="${cat.name}" class="w-12 h-12 object-cover rounded-lg border" onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/333?text=IMG'">
+              <h3 class="text-xl font-bold text-primary">${cat.name}</h3>
+            </div>
             <div class="flex items-center gap-2">
-              <button class="px-3 py-1 rounded-lg border" data-action="edit" data-id="${item.id}">تعديل</button>
-              <button class="px-3 py-1 rounded-lg bg-red-600 text-white" data-action="delete" data-id="${item.id}">حذف</button>
+              <span class="text-sm text-gray-600">${itemsForCat.length} صنف</span>
+              <button class="px-3 py-1 rounded-lg border" data-action="add-item" data-category="${cat.name}">إضافة صنف</button>
+              <button class="px-3 py-1 rounded-lg bg-secondary text-white" data-action="toggle" data-category="${cat.name}">عرض/إخفاء</button>
             </div>
           </div>
         `;
-        els.grid.appendChild(card);
+
+        const panel = document.createElement('div');
+        panel.className = 'mt-3 hidden category-items';
+        panel.setAttribute('data-category', cat.name);
+
+        if (!itemsForCat.length) {
+          const empty = document.createElement('p');
+          empty.className = 'text-sm text-gray-500';
+          empty.textContent = 'لا توجد أصناف في هذه الفئة.';
+          panel.appendChild(empty);
+        } else {
+          itemsForCat.forEach(item => {
+            // عنصر فاصل بصري (عنوان فرعي داخل الفئة)
+            if (item && item.type === 'subheading') {
+              const div = document.createElement('div');
+              div.className = 'bg-gray-100 rounded-xl border p-3 flex items-center justify-between';
+              div.innerHTML = `
+                <span class="text-primary font-semibold">${item.name}</span>
+                <button class="px-3 py-1 rounded-lg bg-red-600 text-white" data-action="delete" data-id="${item.id}">حذف</button>
+              `;
+              panel.appendChild(div);
+              return;
+            }
+            const card = document.createElement('div');
+            card.className = 'bg-gray-50 rounded-xl border p-3 flex flex-col';
+            card.innerHTML = `
+              <div class="flex items-start gap-3">
+                <img src="${item.imageUrl || 'https://placehold.co/128x96/cccccc/333?text=صورة'}" alt="${item.name}" class="w-32 h-24 object-cover rounded-lg border" />
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold text-primary mb-1">${item.name}</h4>
+                  <p class="text-sm text-gray-600 mb-1">${item.description || ''}</p>
+                  <span class="text-base font-semibold text-gray-800">${item.price} ريال</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-end gap-2 border-t pt-3 mt-2">
+                <button class="px-3 py-1 rounded-lg border" data-action="edit" data-id="${item.id}">تعديل</button>
+                <button class="px-3 py-1 rounded-lg bg-red-600 text-white" data-action="delete" data-id="${item.id}">حذف</button>
+              </div>
+            `;
+            panel.appendChild(card);
+          });
+        }
+
+        block.appendChild(panel);
+        els.grid.appendChild(block);
       });
     }
 
@@ -652,6 +690,13 @@
       }
     }
 
+    // حفظ تلقائي (مع إلغاء الاهتزاز) عند تعديل الأصناف
+    let saveItemsTimer = null;
+    function scheduleSaveItems() {
+      try { clearTimeout(saveItemsTimer); } catch {}
+      saveItemsTimer = setTimeout(() => { saveToServer(); }, 800);
+    }
+
     // رفع صورة وإدراج مسارها تلقائيًا في الحقل
     function fileToDataURL(file) {
       return new Promise((resolve, reject) => {
@@ -677,6 +722,13 @@
         if (!resp.ok || !json.ok || !json.path) throw new Error(json.error || 'فشل الرفع');
         els.fImage.value = json.path;
         els.uploadStatus.textContent = 'تم الرفع ✓';
+        // إذا كنا نعدل صنفًا قائمًا، احفظ الصورة مباشرةً ضمن العنصر واحفظ إلى الخادم
+        if (editingId != null) {
+          items = items.map(x => x.id === editingId ? { ...x, imageUrl: els.fImage.value.trim() } : x);
+          saveData();
+          renderItems();
+          scheduleSaveItems();
+        }
       } catch (e) {
         console.warn('خطأ رفع الصورة', e);
         els.uploadStatus.textContent = 'فشل الرفع';
@@ -721,6 +773,7 @@
       items = items.filter(x => x.id !== pendingDeleteId);
       saveData();
       renderItems();
+      scheduleSaveItems();
       closeConfirmDelete();
     });
 
@@ -728,6 +781,22 @@
       const btn = e.target.closest('button');
       if (!btn) return;
       const action = btn.getAttribute('data-action');
+      if (action === 'toggle') {
+        const parent = btn.closest('.bg-white.rounded-xl.shadow-md.p-4') || btn.closest('.bg-white');
+        const panel = parent ? parent.querySelector('.category-items') : null;
+        if (panel) panel.classList.toggle('hidden');
+        return;
+      }
+      if (action === 'add-item') {
+        const catName = btn.getAttribute('data-category') || '';
+        openEditModal(null);
+        if (els.fCategory) {
+          // حاول اختيار الفئة المطابقة إن كانت موجودة ضمن الخيارات
+          const match = [...els.fCategory.options].find(o => o.value === catName);
+          if (match) els.fCategory.value = catName;
+        }
+        return;
+      }
       const id = Number(btn.getAttribute('data-id'));
       const item = items.find(x => x.id === id);
       if (action === 'edit') {
@@ -756,6 +825,8 @@
 
       saveData();
       renderItems();
+      // حفظ تلقائي بعد إضافة/تعديل الصنف
+      scheduleSaveItems();
       closeEditModal();
     });
 
@@ -961,15 +1032,18 @@
             categories[idx].size = btn.getAttribute('data-size');
             renderCategories();
             buildCategoryOptions();
+            scheduleSaveCategories();
           });
         });
         // اسم وصورة
         row.querySelector('.cat-name').addEventListener('input', (e) => {
           categories[idx].name = e.target.value;
           buildCategoryOptions();
+          scheduleSaveCategories();
         });
         row.querySelector('.cat-img').addEventListener('input', (e) => {
           categories[idx].imageUrl = e.target.value;
+          scheduleSaveCategories();
         });
         // رفع صورة
         row.querySelector('[data-action="upload"]').addEventListener('click', () => {
@@ -986,6 +1060,7 @@
               if (resp.ok && json.ok && json.path) {
                 categories[idx].imageUrl = json.path;
                 renderCategories();
+                scheduleSaveCategories();
               }
             } finally {
               catsEls.uploadInput.value = '';
@@ -998,6 +1073,7 @@
           categories.splice(idx, 1);
           renderCategories();
           buildCategoryOptions();
+          scheduleSaveCategories();
         });
       });
     }
@@ -1006,6 +1082,7 @@
       categories.push({ name: '', size: 'small', imageUrl: '' });
       renderCategories();
       buildCategoryOptions();
+      scheduleSaveCategories();
     }
 
     async function saveCategoriesToServer() {
@@ -1077,6 +1154,13 @@
       }
     }
     if (els.btnExportGoogle) els.btnExportGoogle.addEventListener('click', exportAllToGoogle);
+
+    // حفظ تلقائي للفئات (مع إلغاء الاهتزاز)
+    let saveCatsTimer = null;
+    function scheduleSaveCategories() {
+      try { clearTimeout(saveCatsTimer); } catch {}
+      saveCatsTimer = setTimeout(() => { saveCategoriesToServer(); }, 800);
+    }
 
     // ===== الإعدادات =====
     const settingsEls = {
@@ -1585,6 +1669,8 @@
       categories = await loadCategoriesData();
       renderCategories();
       buildCategoryOptions();
+      // إعادة عرض الأصناف بأسلوب الفئات أولاً
+      renderItems();
 
       settings = await loadSettingsData();
       applySettingsToForm();
