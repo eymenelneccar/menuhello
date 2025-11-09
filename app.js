@@ -386,6 +386,22 @@ function generateInvoiceText(params) {
   return lines.join('\n');
 }
 
+// تطبيع رقم واتساب ليصبح بصيغة دولية صحيحة لـ wa.me
+function normalizeWhatsAppNumber(input) {
+  try {
+    let d = String(input || '').replace(/\D+/g, '');
+    // إزالة الصفر بعد كود الدولة لبعض الدول الشائعة إذا وُجد
+    if (d.startsWith('9640')) d = '964' + d.slice(4); // العراق
+    if (d.startsWith('9660')) d = '966' + d.slice(4); // السعودية
+    if (d.startsWith('9710')) d = '971' + d.slice(4); // الإمارات
+    if (d.startsWith('9650')) d = '965' + d.slice(4); // الكويت
+    // تركيا عادة تُكتب 90 ثم الرقم بدون 0، فلا حاجة لتعديل خاص
+    return d;
+  } catch {
+    return String(input || '');
+  }
+}
+
 // إرسال مخفي وسريع إلى Google Sheets عبر Webhook/App Script
 function sendOrderToSheetsHidden(params) {
   try {
@@ -474,7 +490,7 @@ async function submitOrder() {
     });
     const text = generateInvoiceText(payload);
     const waRaw = (siteSettings?.whatsappNumber || '').trim();
-    const waDigits = waRaw.replace(/\D+/g, '');
+    const waDigits = normalizeWhatsAppNumber(waRaw);
     if (waDigits) {
       const url = `https://wa.me/${waDigits}?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
