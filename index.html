@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم هلو جكن - الصفحة الرئيسية</title>
+    
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- تحميل خط عربي جميل (اختياري) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* تطبيق الخط العربي على كامل الصفحة */
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        /* إضافة أنيميشن للظهور */
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop-in {
+            animation: popIn 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen p-6"> <!-- إزالة flex items-center justify-center من هنا -->
+
+    <!-- === شاشة السبلاش (Splash Screen) === -->
+    <div id="splash-screen" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50 transition-opacity duration-1000 ease-in-out">
+        <!-- الشعار: استخدمتُ placeholder، استبدله برابط شعارك -->
+        <img src="hello%20logo.png"
+             alt="شعار المطعم"
+             class="w-32 h-32 rounded-full shadow-lg border-4 border-red-600 p-2 animate-pop-in">
+             <!-- تم إضافة animate-pop-in -->
+    </div>
+
+    <!-- === المحتوى الرئيسي (مخفي في البداية) === -->
+    <div id="main-content" class="opacity-0 transition-opacity duration-1000 ease-in-out delay-500 flex flex-col items-center justify-center min-h-screen">
+         <!-- تم نقل flex... من body إلى هنا -->
+        <div class="w-full max-w-md mx-auto">
+        
+        <!-- === قسم الشعار واسم المطعم === -->
+        <header class="text-center mb-12">
+            <!-- الشعار: استخدمتُ placeholder، استبدله برابط شعارك -->
+            <img src="hello%20logo.png"
+                 alt="شعار المطعم"
+                 class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg border-4 border-red-600 p-2">
+            
+            <!-- اسم المطعم -->
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">
+                مطعم هلو جكن
+            </h1>
+            <p class="text-lg text-gray-500 mt-2">أفضل دجاج مقلي في العراق</p>
+        </header>
+
+        <!-- === قسم أزرار الأفرع === -->
+        <main>
+            <h2 class="text-2xl font-bold text-center text-red-600 mb-6">
+                اختر الفرع الأقرب إليك
+            </h2>
+            
+            <!-- حاوية الأزرار -->
+            <div class="flex flex-col space-y-4">
+                
+                <!-- فرع الصدر -->
+                <button 
+                    class="branch-button bg-white text-red-600 border-2 border-red-600 rounded-lg py-3 px-6 font-bold text-lg transition duration-300 ease-in-out hover:bg-red-600 hover:text-white shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    data-branch="الصدر">
+                    فرع الصدر
+                </button>
+
+                <!-- فرع الزعفرانية -->
+                <button 
+                    class="branch-button bg-white text-red-600 border-2 border-red-600 rounded-lg py-3 px-6 font-bold text-lg transition duration-300 ease-in-out hover:bg-red-600 hover:text-white shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    data-branch="الزعفرانية">
+                    فرع الزعفرانية
+                </button>
+
+                <!-- فرع الدورة -->
+                <button 
+                    class="branch-button bg-white text-red-600 border-2 border-red-600 rounded-lg py-3 px-6 font-bold text-lg transition duration-300 ease-in-out hover:bg-red-600 hover:text-white shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    data-branch="الدورة">
+                    فرع الدورة
+                </button>
+
+                <!-- فرع البلديات -->
+                <button 
+                    class="branch-button bg-white text-red-600 border-2 border-red-600 rounded-lg py-3 px-6 font-bold text-lg transition duration-300 ease-in-out hover:bg-red-600 hover:text-white shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    data-branch="البلديات">
+                    فرع البلديات
+                </button>
+            </div>
+
+            <!-- رسالة تفاعلية تظهر عند النقر (باستخدام JS) -->
+            <div id="message" class="opacity-0 transition-opacity duration-500 text-center text-gray-700 mt-6 h-6">
+                <!-- سيتم ملء هذا الحقل عبر جافاسكريبت -->
+            </div>
+        </main>
+        
+    </div>
+    </div> <!-- إغلاق div الحاوية الداخلية w-full -->
+
+
+    <!-- === قسم الجافاسكريبت === -->
+    <script>
+        // انتظر حتى يتم تحميل كل عناصر الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- منطق شاشة السبلاش ---
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.getElementById('main-content');
+
+            // إخفاء شاشة السبلاش وإظهار المحتوى بعد 1.5 ثانية
+            setTimeout(() => {
+                // بدء إخفاء شاشة السبلاش
+                splashScreen.classList.add('opacity-0', 'pointer-events-none');
+                
+                // بدء إظهار المحتوى الرئيسي
+                mainContent.classList.remove('opacity-0');
+
+                // إزالة شاشة السبلاش من العرض تماماً بعد انتهاء الأنيميشن
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 1000); // 1000ms = مدة أنيميشن الإخفاء
+
+            }, 1500); // 1500ms = 1.5 ثوانٍ
+            
+            // --- المنطق الأصلي للأزرار ---
+
+            // ابحث عن كل الأزرار التي تحمل كلاس "branch-button"
+            const allButtons = document.querySelectorAll('.branch-button');
+            
+            // ابحث عن عنصر الرسالة
+            const messageElement = document.getElementById('message');
+
+            // أضف مستمع حدث (Event Listener) لكل زر
+            allButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // احصل على اسم الفرع من خاصية "data-branch"
+                    const branchName = button.getAttribute('data-branch');
+
+                    // خريطة تربط أسماء الأفرع العربية بملفات الصفحات
+                    const branchMap = {
+                        'الصدر': 'alsider.html',
+                        'الزعفرانية': 'alzafranye.html',
+                        'الدورة': 'aldwra.html',
+                        'البلديات': 'albalafiyat.html'
+                    };
+
+                    // اعرض اسم الفرع في وحدة التحكم (للمطورين)
+                    console.log(`تم النقر على فرع: ${branchName}`);
+
+                    // اختَر الصفحة المناسبة، وافتحها
+                    const targetPage = branchMap[branchName] || 'alzafranye.html';
+                    window.location.href = `/${targetPage}`;
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

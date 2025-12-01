@@ -1,0 +1,749 @@
+[
+  {
+    "id": 1762330834752,
+    "name": "ميني",
+    "category": "الوجبات المقرمشة",
+    "price": 5000,
+    "description": "قطعتين دجاج مقرمش + صلصة سبايسي + ثومية + كولسلو + 2 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3074.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330907614,
+    "name": "نورمال",
+    "category": "الوجبات المقرمشة",
+    "price": 7000,
+    "description": "3 قطع من الدجاج المقرمش + صلصة سبايسي + ثومية + كولسلو + 3 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3071.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330917009,
+    "name": "شير",
+    "category": "الوجبات المقرمشة",
+    "price": 12000,
+    "description": "5 قطع من الدجاج المقرمش + 2 صلصة سبايسي + 2 ثومية + 2 كولسلو + 5 صوص + 2 بيبسي",
+    "imageUrl": "assets/images/IMG_3070.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330852923,
+    "name": "اكس لارج",
+    "category": "الوجبات المقرمشة",
+    "price": 16000,
+    "description": "7 قطع دجاج مقرمش + 3 صلصة سبايسي + 3 ثومية + 3 كولسلو + 7 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3073.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330879188,
+    "name": "فاميلي",
+    "category": "الوجبات المقرمشة",
+    "price": 22000,
+    "description": "10 قطع دجاج مقرمش + صلصة سبايسي + 4 ثومية + 4 كولسلو + 10 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3067.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330857139,
+    "name": "فاميلي اكسترا",
+    "category": "الوجبات المقرمشة",
+    "price": 30000,
+    "description": "14 قطعة دجاج مقرمش + 4 صلصة سبايسي + 4 ثومية + 4 كولسلو + 10 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3067.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330847199,
+    "name": "ستربس",
+    "category": "الوجبات المقرمشة",
+    "price": 8000,
+    "description": "6 قطع من صدر الدجاج المقرمش + صلصة السبايسي + ثومية + كولسلو + 5 صوص",
+    "imageUrl": "assets/images/IMG_3066.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330929961,
+    "name": "فاميلي ستربس",
+    "category": "الوجبات المقرمشة",
+    "price": 16000,
+    "description": "10 قطع ستربس مقرمش + صلصة سبايسي + 4 ثومية + 4 كولسلو + 10 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3067.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330866980,
+    "name": "وجبة اطفال",
+    "category": "الوجبات المقرمشة",
+    "price": 4000,
+    "description": "قطعة دجاج مقرمش + قطعة ستربس مقرمش + كولسلو + عصير اطفال",
+    "imageUrl": "assets/images/IMG_3065.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330888948,
+    "name": "كريسبي ستربس",
+    "category": "الوجبات المقرمشة",
+    "price": 9000,
+    "description": "قطعتين دجاج مقرمش + 2 قطع ستربس + 2 صلصة سبايسي + 2 ثومية + 2 كولسلو + 5 صوص + بيبسي",
+    "imageUrl": "assets/images/55aa1f42-ba45-4794-b18c-63bc8864abc1.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330926724,
+    "name": "فاميلي ستربس اكسترا",
+    "category": "الوجبات المقرمشة",
+    "price": 22000,
+    "description": "15 قطعة ستربس مقرمشة + 5 صلصة سبايسي + 5 ثومية + 5 كولسلو + 10 صوص + بيبسي",
+    "imageUrl": "assets/images/IMG_3067.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330872936,
+    "name": "هلو جكن",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3241.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330903669,
+    "name": "فلر",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3244.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330914770,
+    "name": "زنكر",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3160.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330892896,
+    "name": "سبايسي جكن",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3248.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330917583,
+    "name": "جكن مدخن",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3159.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330907828,
+    "name": "ستيك دجاج",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3246.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330923944,
+    "name": "كريسبي مدخن",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3247.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330878724,
+    "name": "كريسبي",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3242.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330930140,
+    "name": "روستد سبايسي",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3163.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330907228,
+    "name": "فرانسيسكو",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3240.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330845950,
+    "name": "جكن رول",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3162.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330877467,
+    "name": "جكن مشروم",
+    "category": "السندويشات",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3249.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330922554,
+    "name": "فاهيتا دجاج",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3245.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330894733,
+    "name": "توستر",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/15dd8e58-e07b-4403-93fb-90ff0baac43c.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330845871,
+    "name": "توستر فاهيتا",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/bd651022-4000-4d1d-8bce-cec24bd7966e.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330923850,
+    "name": "توستر سبايسي",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/2b3c13bd-c859-4bad-93ab-dfe0d1a6f319.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330843089,
+    "name": "توستر مدخن",
+    "category": "السندويشات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/0739b989-70f0-43ca-98de-6d19c2dd1901.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330832134,
+    "name": "هلو جكن",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3156.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330930111,
+    "name": "مدخن",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3155.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330914438,
+    "name": "ريزو هاواي",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3133.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330906954,
+    "name": "سبايسي",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3153.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330908074,
+    "name": "أعشاب",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3154.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330899376,
+    "name": "هاني ماسترد",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/d33bf2e9-aa44-4358-8ae1-b609ade3da0e.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330928762,
+    "name": "بالجبن",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3152.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330914653,
+    "name": "جكن بوب",
+    "category": "الريزو",
+    "price": 3000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3198.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330848625,
+    "name": "جكن فرايز",
+    "category": "الريزو",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3197.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330854254,
+    "name": "عائلي",
+    "category": "الريزو",
+    "price": 14000,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330912770,
+    "name": "علبة فنكر",
+    "category": "الإضافات",
+    "price": 1500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330923696,
+    "name": "علبة صلصة مدخن",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3062.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330874096,
+    "name": "علبة صوص هلو جكن",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3063.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330884262,
+    "name": "علبة صلصة هاني ماستر",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3064.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330832609,
+    "name": "فنكر بالجبن والهاالبينو",
+    "category": "الإضافات",
+    "price": 2500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330840373,
+    "name": "صحن فنكر بالجبن",
+    "category": "الإضافات",
+    "price": 2500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330891135,
+    "name": "صحن فنكر بالصلصة",
+    "category": "الإضافات",
+    "price": 2500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330892243,
+    "name": "قطعة ستربس",
+    "category": "الإضافات",
+    "price": 1500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330866129,
+    "name": "قطعة كتناكي",
+    "category": "الإضافات",
+    "price": 2500,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330922254,
+    "name": "صمون 6",
+    "category": "الإضافات",
+    "price": 1000,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330915610,
+    "name": "صلصات 4",
+    "category": "الإضافات",
+    "price": 1000,
+    "description": "",
+    "imageUrl": "",
+    "variants": []
+  },
+  {
+    "id": 1762330868576,
+    "name": "علبة بيسي",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/ed6733b0-d602-4964-b80b-aa08096f715b.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330909472,
+    "name": "هالبينو",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3061.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330854679,
+    "name": "بطل لبن",
+    "category": "الإضافات",
+    "price": 500,
+    "description": "",
+    "imageUrl": "assets/images/88bd3cc9-82e2-45ee-949e-a58a32c315f0.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330902185,
+    "name": "بطل بيسي",
+    "category": "الإضافات",
+    "price": 1500,
+    "description": "",
+    "imageUrl": "assets/images/9d8361c8-11f1-4a7c-8d64-a3fd29e2ce30.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330852123,
+    "name": "ماء",
+    "category": "الإضافات",
+    "price": 250,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3171.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330862663,
+    "name": "جكن بركر",
+    "category": "البركر",
+    "price": 4000,
+    "description": "",
+    "imageUrl": "assets/images/50b55352-6ac2-4aef-9d7e-28f65c383a95.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330902688,
+    "name": "جكن بركر دبل",
+    "category": "البركر",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/46b0e204-3ff9-461f-a30a-de2e6bf35037.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330872259,
+    "name": "مشروم بركر لحم",
+    "category": "البركر",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3239.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330928386,
+    "name": "بركر لحم",
+    "category": "البركر",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3234.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330921084,
+    "name": "بركر لحم مدخن",
+    "category": "البركر",
+    "price": 5500,
+    "description": "",
+    "imageUrl": "assets/images/addc80ca-e7ee-4d81-9608-3e26d7696afa.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330839841,
+    "name": "بركر لحم بالجبن",
+    "category": "البركر",
+    "price": 5500,
+    "description": "",
+    "imageUrl": "assets/images/dfaa9587-7356-4cb2-bc59-78b6d20c0448.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330848089,
+    "name": "بركر لحم دبل",
+    "category": "البركر",
+    "price": 7000,
+    "description": "",
+    "imageUrl": "assets/images/43e75301-c550-458d-a2f4-8643778c4e20.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330897537,
+    "name": "بركر لحم مدخن دبل",
+    "category": "البركر",
+    "price": 7500,
+    "description": "",
+    "imageUrl": "assets/images/f6d3fc62-f987-4fd1-ad13-ac6d0936c214.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330905733,
+    "name": "بركر لحم محشي بالجبن",
+    "category": "البركر",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3238.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330925552,
+    "name": "بركر لحم بالجبن دبل",
+    "category": "البركر",
+    "price": 7500,
+    "description": "",
+    "imageUrl": "assets/images/2f1e652b-4121-49d3-880c-a8cbe13169c5.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330860151,
+    "name": "صغير",
+    "category": "المقبلات",
+    "price": 2000,
+    "description": "",
+    "imageUrl": "assets/images/ab01f8fd-8ccd-48b2-adcf-677c13300b59.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330878729,
+    "name": "وسط",
+    "category": "المقبلات",
+    "price": 3500,
+    "description": "",
+    "imageUrl": "assets/images/765fdde1-25b6-4494-8d79-a7b1271bd347.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330852890,
+    "name": "كبير",
+    "category": "المقبلات",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/c76f7122-afaf-4627-920b-c316c2ff6e41.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330878695,
+    "name": "بوكس تويستر مشوي",
+    "category": "الصاج الإيطالي",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3221.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330908066,
+    "name": "صاج إيطالي لحم",
+    "category": "الصاج الإيطالي",
+    "price": 6000,
+    "description": "",
+    "imageUrl": "assets/images/8db1fc0c-ab73-474d-891d-20cdb02011c9.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330857103,
+    "name": "لغم هلو جكن لحم",
+    "category": "الصاج الإيطالي",
+    "price": 7000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3220.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330862228,
+    "name": "لغم هلو جكن دجاج",
+    "category": "الصاج الإيطالي",
+    "price": 7000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3219.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330880592,
+    "name": "اوريجنال",
+    "category": "الأجنحة",
+    "price": 5000,
+    "description": "6 قطع أجنحة مع صلصة خاصة",
+    "imageUrl": "assets/images/IMG_3209.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330921560,
+    "name": "هاني ماسترد",
+    "category": "الأجنحة",
+    "price": 5000,
+    "description": "6 قطع أجنحة مع صلصة الهاني ماسترد الشهيرة",
+    "imageUrl": "assets/images/IMG_3203.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330904507,
+    "name": "أجنحة مدخن",
+    "category": "الأجنحة",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3142.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330889489,
+    "name": "أجنحة سبايسي",
+    "category": "الأجنحة",
+    "price": 5000,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3136.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330880525,
+    "name": "بيتزا هلو جكن",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/06d9387e-346f-4eed-9454-191689bba1d2.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330832627,
+    "name": "بيتزا لحم",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/06adabef-f72f-4fea-be65-f7d50f7c3388.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330875919,
+    "name": "بيتزا دجاج",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/e20f00bd-b93b-4041-b343-c38b1da96457.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330907732,
+    "name": "بيتزا ببروني",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/1ebeeaf5-b86d-49a3-ae1a-eb19c9b3e80c.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330879396,
+    "name": "بيتزا مشكل",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/2e1f4fab-2f86-4fa2-9375-174c1fa9992a.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330863790,
+    "name": "بيتزا جكن جيزي",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3150.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1762330855529,
+    "name": "بيتزا كرسبي مدخن",
+    "category": "البيتزا",
+    "price": 0,
+    "description": "",
+    "imageUrl": "assets/images/IMG_3149.jpeg",
+    "variants": []
+  },
+  {
+    "id": 1763480692367,
+    "name": "صاج ايطالي بالدجاج",
+    "category": "الصاج الإيطالي",
+    "price": 7000,
+    "imageUrl": "assets/images/a3ed1adc-7664-469f-93e1-94cf81ffaf77.jpeg",
+    "description": "",
+    "variants": []
+  }
+]

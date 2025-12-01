@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "autoplay": false,
+  "intervalMs": 5000,
+  "images": [
+    "assets/images/WhatsApp_Image_2025-11-21_at_12.35.24_AM.jpeg",
+    "assets/images/WhatsApp_Image_2025-11-21_at_12.35.24_AM.jpeg"
+  ],
+  "textEnabled": false,
+  "textContent": "",
+  "buttons": [
+    {
+      "enabled": true,
+      "iconUrl": "info.png",
+      "href": ""
+    },
+    {
+      "enabled": true,
+      "iconUrl": "instagram.png",
+      "href": "https://www.instagram.com/hellochicken.iq/?hl=en"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "الوجبات المقرمشة",
+    "size": "small",
+    "imageUrl": "assets/images/IMG_3072.jpeg"
+  },
+  {
+    "name": "السندويشات",
+    "size": "small",
+    "imageUrl": "assets/images/bd651022-4000-4d1d-8bce-cec24bd7966e.jpeg"
+  },
+  {
+    "name": "الريزو",
+    "size": "wide",
+    "imageUrl": "assets/images/IMG_3133.jpeg"
+  },
+  {
+    "name": "الإضافات",
+    "size": "xsmall",
+    "imageUrl": "assets/images/d.jpeg"
+  },
+  {
+    "name": "البركر",
+    "size": "large",
+    "imageUrl": "assets/images/dfaa9587-7356-4cb2-bc59-78b6d20c0448.jpeg"
+  },
+  {
+    "name": "المقبلات",
+    "size": "small",
+    "imageUrl": "assets/images/765fdde1-25b6-4494-8d79-a7b1271bd347.jpeg"
+  },
+  {
+    "name": "الصاج الإيطالي",
+    "size": "wide",
+    "imageUrl": "assets/images/IMG_3224.jpeg"
+  },
+  {
+    "name": "الأجنحة",
+    "size": "large",
+    "imageUrl": "assets/images/IMG_3142.jpeg"
+  },
+  {
+    "name": "البيتزا",
+    "size": "large",
+    "imageUrl": "assets/images/2e1f4fab-2f86-4fa2-9375-174c1fa9992a.jpeg"
+  }
+]
